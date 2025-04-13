@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>系统登录</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static '/plugins/css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="{% static '/plugins/icon/bootstrap-icons-1.11.3/bootstrap-icons-1.11.3/font/bootstrap-icons.css' %}">
+    <!-- ZZY 的 css样式 -->
+    <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+<div class="card w-25 " style="min-height: 400px">
+    <div class="card-body">
+        <div class="login-container w-75">
+            <div class="text-center mb-5">
+                <h2 class="gradient-text">
+                    <img style="width:70px;height: 70px" src="{% static '/img/logo1.png' %}" class="rounded" alt="logo">管理系统
+                </h2>
+            </div>
+
+            <!-- 登录注册切换 -->
+            <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#login">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#register">注册</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- 登录表单 -->
+                <div class="tab-pane fade show active" id="login">
+                    <form id="loginForm" method="POST" action="{% url 'user_login' %}">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="username" placeholder="用户名" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control" name="password" placeholder="密码" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" href="/ManageNext/">
+                            <span class="normal-text">立即登录</span>
+                            <span class="loading-text d-none">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </span>
+                        </button>
+                    </form>
+                    <button type="button"
+                            class="list-group-item list-group-item-action list-group-item-success mt-4 w-100 text-center"
+                            onclick="if(confirm('确认进入系统吗？')) window.location.href='/ManageNext/'">快捷进入
+                    </button>
+                </div>
+
+                <!-- 注册表单 -->
+                <div class="tab-pane fade" id="register">
+                    <form id="registerForm" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="reg_username" placeholder="用户名">
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" class="form-control" name="email" placeholder="邮箱地址" >
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control" name="reg_password" placeholder="密码" >
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">立即注册</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/plugins/js/bootstrap.js' %}"></script>
+
+<!-- 添加Toast通知 -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast bg-danger text-white" role="alert">
+        <div class="toast-body"></div>
+    </div>
+</div>
+
+<script>
+// 初始化Toast
+const toast = new bootstrap.Toast(document.getElementById('liveToast'))
+
+// 登录表单处理
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // 禁用按钮并显示加载状态
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.normal-text').classList.add('d-none');
+    submitBtn.querySelector('.loading-text').classList.remove('d-none');
+
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok && response.status !== 400) throw new Error(`HTTP错误! 状态码: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = '/ManageNext/';
+        } else {
+            throw new Error(data.message || '登录失败');
+        }
+    })
+    .catch(error => {
+        toast._element.querySelector('.toast-body').textContent = error.message;
+        toast.show();
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('.normal-text').classList.remove('d-none');
+        submitBtn.querySelector('.loading-text').classList.add('d-none');
+    });
+});
+
+// 注册表单处理
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch('/user/register/', {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: formData // 转换表单数据格式
+    })
+    .then(response => {
+        if (!response.ok && response.status !== 400) throw new Error(`邮箱已被注册! 状态码: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            toast._element.querySelector('.toast-body').textContent = '注册成功';
+            toast._element.classList.replace('bg-danger', 'bg-success');
+            form.reset();
+        } else {
+            throw new Error(data.message || '注册失败');
+        }
+        toast.show();
+    })
+    .catch(error => {
+        toast._element.querySelector('.toast-body').textContent = error.message;
+        toast._element.classList.replace('bg-success', 'bg-danger');
+        toast.show();
+    });
+});
+</script>
+</body>
+</html>

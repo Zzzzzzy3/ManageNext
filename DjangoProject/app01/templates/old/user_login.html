@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户登录</title>
+    <link href="/app01/static/zzy_css/login_design.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="{% static '/plugins/css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="{% static '/plugins/icon/bootstrap-icons-1.11.3/bootstrap-icons-1.11.3/font/bootstrap-icons.css' %}">
+    <!-- ZZY 的 css样式 -->
+    <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
+</head>
+<body>
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+    <div class="card">
+        <div class="card-body ">
+            <div class="alert-container mb-3"></div>
+<div class="text-center mb-4">
+                <h3 class="fw-bold gradient-text">
+                    <img src="/app01/static/img/idmwuli5U__logos.svg" style="width:70px;height: 70px " class="rounded">系统登录
+                </h3>
+            </div>
+
+            <!-- 选项卡导航 -->
+            <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#login">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#register">注册</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- 登录表单 -->
+                <div class="tab-pane fade show active" id="login">
+                    <form id="loginForm" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">用户名</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">密码</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>立即登录
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 注册表单 -->
+                <div class="tab-pane fade" id="register">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label class="form-label">用户名</label>
+                            <input type="text" class="form-control" required>
+                            <div class="invalid-feedback animate__animated">用户名不能为空</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">电子邮箱</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码</label>
+                            <input type="password" name="password1" class="form-control" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">确认密码</label>
+                            <input type="password" name="password2" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-person-add me-2"></i>立即注册
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/plugins/js/bootstrap.js' %}"></script>
+<script>
+$(document).ready(function() {
+    // 处理登录表单
+    $('#loginForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/login/',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    window.location.href = response.redirect;
+                } else {
+                    showAlert('danger', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('danger', xhr.responseJSON?.message || '请求失败');
+            }
+        });
+    });
+
+    // 处理注册表单
+    $('#registerForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/register/',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    window.location.href = response.redirect;
+                } else {
+                    showAlert('danger', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('danger', xhr.responseJSON?.message || '注册失败');
+            }
+        });
+    });
+
+    function showAlert(type, message) {
+        const alertDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show">' +
+            message + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+        $('.alert-container').html(alertDiv);
+    }
+});
+</script>
+</body>
+</html>

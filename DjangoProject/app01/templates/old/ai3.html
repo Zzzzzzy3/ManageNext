@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- 引入必要的库 -->
+    <!-- Markdown 解析 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- HTML 净化（防XSS） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+
+    <!-- 代码高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="chat-box" style="max-width: 800px; margin: 20px auto"></div>
+    <input type="text" id="user-input">
+    <button onclick="sendMessage()">发送</button>
+
+    <script>
+        // 配置 marked
+        marked.setOptions({
+            breaks: true,
+            highlight: function(code, lang) {
+                return hljs.highlightAuto(code).value
+            }
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById("user-input").value;
+            if (!input) return;
+
+            // 显示用户消息（原始文本）
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `
+                <div class="message user-message">
+                    <div class="sender">你</div>
+                    <div class="content">${input}</div>
+                </div>
+            `;
+
+            try {
+
+                // 安全渲染 Markdown
+                const rawMD = "当前全球食品市场正经历快速变革与多元化发展，在消费者需求、技术创新及政策驱动下呈现出以下主要趋势与特点： --- ### **1. 宏观环境与经济影响** - **经济波动与通胀压力**：全球经济复苏不均衡及通货膨胀导致消费者对价格敏感度上升，“性价比”成为关键考量因素。 - **供应链挑战**：地缘政治冲突（如俄乌战争）、气候灾害及能源成本上升影响全球供应链稳定性。 - **人口结构变化**：老龄化社会推动高营养、便捷型老年食品需求；城市化加速推动快餐与预制菜市场增长。 --- ### **2. 消费者行为与需求趋势** #### **健康化与功能性** - **“清洁标签”兴起**：消费者偏好无添加（无防腐剂/人工色素）、天然成分的产品。 - **低卡/低糖/高蛋白**：肥胖率上升促使减糖饮料、高蛋白零食（如蛋白棒）热销。 - **植物基替代品爆发**：植物肉（如Beyond Meat）、豆奶/燕麦奶等因环保及健康理念快速渗透。 - **功能性食品增长**：益生菌酸奶、维生素强化饮品等满足健康管理需求。 #### **可持续性与环保意识** - **绿色消费**：有机认证农产品需求增加；可降解包装成为品牌竞争力之一。 - **减少浪费**：零废弃概念兴起，“丑陋蔬果”销售及厨余回收技术受关注。 - **碳足迹透明化**：消费者关注产品生产过程中的碳排放及动物福利标准。 #### **便利性与数字化** - **预制菜爆发式增长**：家庭小型化及烹饪时间减少推动半成品/速食产品（如自热火锅）普及。 - **线上渠道主导**：生鲜电商（如Instacart）、社区团购及直播带货重塑购买习惯。 - **个性化订阅服务**：定制化营养餐盒（如HelloFresh）、按需配送服务兴起。 --- ### **3. 技术创新与产业升级** #### **食品科技突破** - **细胞培养肉商业化**：Impossible Foods等公司加速实验室培育肉量产进程。 - **3D打印技术应用**：用于定制形状或成分的糖果/烘焙品生产。 - **AI优化供应链**：通过数据分析预测需求并减少损耗；区块链技术实现全程溯源。 #### **包装与保鲜技术** - 智能包装（如变色标签监测新鲜度）、纳米材料延长保质期的技术革新。 --- ### **4. 政策法规影响** - **ESG要求加强**：各国推动碳排放标准及塑料禁令（如欧盟一次性塑料禁令）。 - 食品安全监管趋严：转基因作物标注规定细化；添加剂使用限制增多。 - 农业补贴政策调整以支持可持续农业（如有机种植补贴）。 --- ### **5. 竞争格局演变** #### 传统巨头转型 大型企业通过收购新兴品牌（如雀巢收购Sweet Earth植物肉品牌）或推出子品牌抢占细分市场。 #### 新兴品牌崛起 小众品牌聚焦细分领域（如纯素零食、古法发酵制品），借助社交媒体营销快速获客。 #### 区域差异显著 例如： - 亚洲市场偏好方便面升级版及健康茶饮； - 欧美植物基替代品渗透率较高； - 中东地区清真认证产品需求强劲； - 非洲关注低成本营养强化食品以应对粮食安全问题。 --- ### **6. 未来关键趋势预测** 1. **精准营养与个性化饮食** - 基因检测结合AI推荐定制食谱；针对特定人群（如糖尿病患者）开发专用配方产品。 2. 海外本土化策略加强 - 跨国公司需适应当地口味偏好（如东南亚香料融合西式料理）以扩大市场份额。 3. 可持续蛋白质来源开发 - 昆虫蛋白合法化尝试；藻类提取物作为新型超级食物推广。 4. 环保包装材料创新 - 纸质吸管替代塑料制品；可食用涂层保鲜技术商业化应用。 5. 应对气候变化的产品设计 - 耐旱作物品种研发；“气候友好型”认证体系建立以吸引环保消费者群体 --- ### 7. 风险与挑战 1. 原材料价格波动加剧经营不确定性 2. 过度营销导致“绿色洗牌”现象需警惕 3. 数据隐私问题伴随个性化服务普及而凸显 --- ### 总结： 当前食品市场竞争激烈且机遇并存，在健康化、可持续性和便利性三大核心诉求驱动下，“科技赋能+社会责任+精准定位”将成为企业突围的关键策略。同时需密切关注区域差异及政策变化带来的结构性调整机会。";
+                const unsafeHTML = marked.parse(rawMD);
+                const cleanHTML = DOMPurify.sanitize(unsafeHTML);
+
+                chatBox.innerHTML += `
+                    <div class="message ai-message">
+                        <div class="sender">AI</div>
+                        <div class="md-content">${cleanHTML}</div>
+                    </div>
+                `;
+
+                // 激活代码高亮
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+
+            } catch (error) {
+                console.error('请求失败:', error);
+                chatBox.innerHTML += `
+                    <div class="error">
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+
+            document.getElementById("user-input").value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // CSRF 处理函数保持不变
+        function getCookie(name) { /* ... */ }
+    </script>
+
+    <style>
+        /* 基础样式 */
+        .message {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            margin-left: 20%;
+        }
+
+        .ai-message {
+            background: #f5f5f5;
+            margin-right: 20%;
+        }
+
+        .sender {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .md-content {
+            line-height: 1.6;
+        }
+
+        /* Markdown 增强样式 */
+        .md-content h1, .md-content h2, .md-content h3 {
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+
+        .md-content ul {
+            padding-left: 2em;
+            list-style: disc;
+        }
+
+        .md-content code {
+            background: rgba(175,184,193,0.2);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: Monaco, monospace;
+        }
+
+        .md-content pre {
+            background: #f8f9fa;
+            padding: 1em;
+            overflow: auto;
+            border-radius: 6px;
+            margin: 1em 0;
+        }
+
+        .md-content blockquote {
+            border-left: 4px solid #dfe2e5;
+            margin: 1em 0;
+            padding: 0 1em;
+            color: #6a737d;
+        }
+    </style>
+
+</body>
+</html>

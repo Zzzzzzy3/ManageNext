@@ -1,0 +1,150 @@
+.login-card {
+    width: 480px;
+    min-height: 520px;
+    height: auto;
+    max-width: 90vw;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    will-change: transform, opacity;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.login-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 2rem;
+}
+
+.form-control:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+    transform: scale(1.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}
+
+/* 新增装饰性渐变背景 */
+.login-card {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    position: relative;
+    overflow: visible;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.05));
+    z-index: -1;
+    border-radius: 22px;
+}
+
+/* 新增内容容器固定高度 */
+.tab-content {
+    height: 100%;
+    min-height: 400px;
+    min-width: 420px;
+}
+
+.tab-pane {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#registerForm {
+    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(auto-fit, minmax(40px, auto));
+    gap: 1rem;
+}
+
+/* 增强标题效果 */
+.gradient-text {
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(99, 102, 241, 0.15);
+}
+
+/* 优化输入框动画 */
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.3);
+    transform: scale(1.03);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 新增底部装饰条动画 */
+.login-card::after {
+    height: 6px;
+    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 50%, #6366f1 100%);
+    opacity: 0.9;
+    transition: all 0.6s ease;
+}
+
+.login-card:hover::after {
+    opacity: 1;
+    height: 8px;
+}
+
+/* 增强按钮投影 */
+.btn-primary {
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}

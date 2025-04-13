@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>系统登录</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static '/plugins/css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="{% static '/plugins/icon/bootstrap-icons-1.11.3/bootstrap-icons-1.11.3/font/bootstrap-icons.css' %}">
+    <!-- ZZY 的 css样式 -->
+    <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+<div class="card w-25 " style="min-height: 400px">
+    <div class="card-body">
+        <div class="login-container w-75">
+            <div class="text-center mb-5">
+                <h2 class="gradient-text">
+                    <img style="width:70px;height: 70px" src="{% static '/img/logo1.png' %}" class="rounded" alt="logo">管理系统
+                </h2>
+            </div>
+
+            <!-- 登录注册切换 -->
+            <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#login">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#register">注册</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- 登录表单 -->
+                <div class="tab-pane fade show active" id="login">
+                    <form id="loginForm" method="POST" action="{% url 'user_login' %}">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="username" placeholder="用户名" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control" name="password" placeholder="密码" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <span class="normal-text">立即登录</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 注册表单 -->
+                <div class="tab-pane fade" id="register">
+                    <form id="registerForm" method="POST" action="{% url 'user_register' %}">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="reg_username" placeholder="用户名" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" class="form-control" name="reg_email" placeholder="邮箱地址" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control" name="reg_password" placeholder="密码" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">立即注册</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/plugins/js/bootstrap.js' %}"></script>
+
+</body>
+</html>

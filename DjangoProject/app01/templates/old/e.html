@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态循环文字效果</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .dynamic-text-container {
+            overflow: hidden;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 50px; /* 控制文字高度 */
+            margin-top: 100px;
+        }
+
+        .dynamic-text {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 36px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #007bff;
+            animation: scrollText 5s linear infinite; /* 动画效果 */
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%); /* 初始位置在屏幕外右侧 */
+            }
+            50% {
+                transform: translateX(-100%); /* 动画到达屏幕外左侧 */
+            }
+            100% {
+                transform: translateX(100%); /* 动画返回右侧，循环 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container text-center">
+    <div class="dynamic-text-container">
+        <div class="dynamic-text">这是一个动态循环的文字效果！欢迎来到我的网站！</div>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JS 和 Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -76,7 +76,7 @@
                 </a>
                 <a href="#" class="list-group-item list-group-item-action " data-bs-toggle="tab"
                    data-bs-target="#ai_analysis">
-                    <i class="bi bi-robot me-2"></i>AI收支分析
+                    <i class="bi bi-robot me-2"></i>AI大模型分析
                     <span class="badge bg-primary rounded-pill float-end">12</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
@@ -171,7 +171,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in dish_table %}
+                                {% for item in dish_table reversed %}
                                     <tr>
                                         <td class="text-center">{{ item.id }}</td>
                                         <td class="text-center">{{ item.dish_name }}</td>
@@ -416,7 +416,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <!-- 搜索表单 -->
-                                    <h5>菜品查询</h5>
+                                    <h5>库存查询</h5>
                                     <form id="searchForm">
                                         <input type="number" id="search_inventory_id" placeholder="输入库存标识ID"
                                                class="form-control">
@@ -504,7 +504,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <!-- 搜索表单 -->
-                                    <h5>菜品查询</h5>
+                                    <h5>供应商查询</h5>
                                     <form id="searchForm">
                                         <input type="number" id="search_supplier_id" placeholder="输入供应商ID"
                                                class="form-control">

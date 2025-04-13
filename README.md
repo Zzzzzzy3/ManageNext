@@ -17,3 +17,5 @@
 pip install --upgrade openai
 ```
 - requests
+## 预览界面
+![https://github.com/Zzzzzzy3/PycharmProjects/blob/main/image.png]

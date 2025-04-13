@@ -11,7 +11,7 @@ Ai部分 - #通义千问Qwen/QwQ-32B
 ### 其他
 
 #### 一些用到的工具
-- [b] MySQL_workbench
+- MySQL_workbench
 #### 一些第三方库(必要)
 - openpyxl
 - mysqlclient

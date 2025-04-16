@@ -39,7 +39,7 @@ document.getElementById("inventory_add_Form").addEventListener("submit", functio
             } else {
                 const errorMsg = data.message.includes('已存在') ? '名称已存在' : data.message;
                 // const toastEl = document.getElementById('liveToast_error1');
-                // new bootstrap.Toast(toastEl).show();
+                // new bootstrap.Toast(toastEl).show();202319121330zzy
                 throw new Error(errorMsg);
             }
         })

@@ -4,7 +4,7 @@ function sendMessage() {
     const chatBox = document.getElementById('chat-box');
     const btn = document.querySelector('#ai_analysis button');
 
-    // 添加加载状态
+    // 加载状态
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> AI处理中...';
     btn.disabled = true;
 

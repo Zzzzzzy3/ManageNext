@@ -21,7 +21,7 @@ async function sendMessage() {
       document.getElementById("user-input").value = "";
     }
 
-    // 获取 Django 的 CSRF token（如果你用的是 Django）
+
     function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {

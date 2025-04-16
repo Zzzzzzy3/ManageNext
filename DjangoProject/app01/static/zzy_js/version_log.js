@@ -34,7 +34,6 @@ function sendMessage() {
         '# 2.0.0\n' +
         '接入ai模块,完成基本设计,待优化SQL语句和索引优化'
 
-            // 使用highlight.js高亮代码块
     card.innerHTML = marked.parse(version_txt);
 
 }

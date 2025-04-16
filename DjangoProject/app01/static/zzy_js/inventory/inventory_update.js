@@ -39,7 +39,7 @@ function initEditInventory() {
                 if (data.status === "success") {
                     // 选择器为精确匹配
                     console.log(data.inventory.id)
-                    const selector = `tr td:first-child[data-id="${data.inventory.id}"]`; // 移除列序限制
+                    const selector = `tr td:first-child[data-id="${data.inventory.id}"]`;
                     const cell = document.querySelector(selector);
 
                     if (!cell) {

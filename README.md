@@ -21,7 +21,8 @@ pip install requests
 ```
 
 ## 预览界面
-![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/image.png)
-![]()
-![]()
+### 主界面
+![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_main.png)
+### Ai部分
+![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_ai.png)
 ![]()

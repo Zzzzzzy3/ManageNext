@@ -89,6 +89,11 @@
                     <i class="bi bi-share me-2"></i>交易数据导出
                     <span class="badge bg-primary rounded-pill float-end">2</span>
                 </a>
+                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
+                   data-bs-target="#version_log">
+                    <i class="bi bi-calendar2-week"></i> 版本日志
+                    <span class="badge bg-primary rounded-pill float-end"></span>
+                </a>
                 <button type="button"
                         class="list-group-item list-group-item-action list-group-item-danger mt-4 w-100"
                         onclick="if(confirm('确认退出系统吗？')) window.location.href='/login'">
@@ -96,7 +101,7 @@
                 </button>
                 <!--备注 -->
                 <div class="text-center mt-4 text-muted fs-6" style="opacity: 0.7;">
-                    © Admin System v1.0.5
+                    © Zzy&Hzy Admin System v2.0.0
                     <div>
                         |bootstrap v5.3.0-alpha1|
                         <div>
@@ -522,6 +527,14 @@
                 <div class="tab-pane fade" id="data_im_ex">
 
                     <a href="{% url 'export_to_excel' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
+                <!-- 日志 -->
+                </div>
+                <div class="tab-pane fade" id="version_log">
+                    <div class="card">
+                        <div class="card-body" id="version_log_card">
+
+                        </div>
+                    </div>
 
                 </div>
         </div>
@@ -757,6 +770,8 @@
     <!--version-->
     <script src="{% static '/zzy_js/get_version.js' %} "></script>
     <script src="{% static '/zzy_js/user_login/user_delete.js' %}"></script>
+    <script src="{% static '/zzy_js/version_log.js' %}"></script>
+
     <!--charts-->
     <script src="{% static '/zzy_js/echart/charts2.js' %}"></script>
     <script src="{% static '/zzy_js/echart/charts.js' %}"></script>
@@ -787,6 +802,6 @@
 
     <script src="{% static '/zzy_js/echart/dishtable_map.js' %}"></script>
     <!--aichat-->
-    <script src="{% static '/zzy_js/ai_chat/md.js' %}"></script>
+    <script src="{% static '/zzy_js/ai_chat/ai_chat.js' %}"></script>
 </body>
 </html>

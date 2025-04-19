@@ -489,26 +489,62 @@ def inventory_query(request):
             "message": f"查询失败: {str(e)}"
         }, status=500)
 #导出模块
-def export_to_excel(request):
-    # 创建 Excel 工作簿
+def export_to_excel_dishtable(request):
+    # 创建 Excel
     workbook = openpyxl.Workbook()
     sheet = workbook.active
     sheet.title = '导出数据'
 
-    # 写入表头（替换为你的字段）
+    # 写入表头（字段）
     sheet.append(['菜品ID', '菜品名称', '菜品前台消费数量','菜品价格'])
 
-    # 写入数据（替换字段为你的模型字段）
+    # 写入数据
     for item in DishTable.objects.all():
         sheet.append([item.id, item.dish_name, item.dish_amount,item.dish_price])
 
-    # 创建 HttpResponse 并设置内容类型
+    # 创建 HttpResponse
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
+    response['Content-Disposition'] = 'attachment; filename=exported_data_dishtable.xlsx'
 
     # 保存 Excel 到响应
     workbook.save(response)
 
+    return response
+
+def export_to_excel_inventory(request):
+    # 创建 Excel
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = '导出数据'
+
+    # 写入表头（字段）
+    sheet.append(['库存记录唯一标识','库内商品名称','库内商品数量','保质期限','关联菜品ID','仓库位置','批次号','分类标签'])
+
+    # 写入数据
+    for item in Inventory.objects.all():
+        sheet.append([item.inventory_id,item.product_name,item.amount,item.expiration_data,item.dish_id,item.warehouse_loc,item.batch_no,item.category])
+
+    # 创建 HttpResponse
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=exported_data_inventory.xlsx'
+
+    # 保存 Excel 到响应
+    workbook.save(response)
+
+    return response
+
+def export_to_excel_supplier(request):
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title='导出数据'
+
+    sheet.append(['供应商唯一标识','供应商名称','主要联系人姓名','联系电话','联系邮箱','详细地址','最后修改时间'])
+    for item in Supplier.objects.all():
+        sheet.append([item.supplier_id,item.name,item.contact_person,item.phone,item.email,item.address,item.updated_time])
+
+    response=HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=exported_data_supplier.xlsx'
+    workbook.save(response)
     return response
 #图标模块
 def chart_data(request):

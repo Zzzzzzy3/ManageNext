@@ -26,3 +26,4 @@ pip install requests
 ### Ai部分
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_ai.png)
 ![]()
+### 增删查改部分

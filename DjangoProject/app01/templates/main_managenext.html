@@ -9,8 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="{% static '/plugins/css/bootstrap.css' %}" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="{% static '/plugins/icon/bootstrap-icons-1.11.3/bootstrap-icons-1.11.3/font/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/plugins/icon/bootstrap-icons-1.11.3/font/bootstrap-icons.css' %}">
     <!-- ZZY 的 css样式 -->
     <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
     <!-- 引入 echarts.js -->
@@ -72,22 +71,22 @@
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#front_manage">
                     <i class="bi bi-clipboard2-data"></i>前台管理
-                    <span class="badge bg-primary rounded-pill float-end">2</span>
+                    <span class="badge bg-primary rounded-pill float-end">1</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action " data-bs-toggle="tab"
                    data-bs-target="#ai_analysis">
                     <i class="bi bi-robot me-2"></i>AI大模型分析
-                    <span class="badge bg-primary rounded-pill float-end">12</span>
+                    <span class="badge bg-primary rounded-pill float-end">1</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#back_manage">
                     <i class="bi bi-box-seam-fill me-2"></i>库存与采购联动
-                    <span class="badge bg-primary rounded-pill float-end">3</span>
+                    <span class="badge bg-primary rounded-pill float-end">2</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#data_im_ex">
                     <i class="bi bi-share me-2"></i>交易数据导出
-                    <span class="badge bg-primary rounded-pill float-end">2</span>
+                    <span class="badge bg-primary rounded-pill float-end">3</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#version_log">
@@ -118,7 +117,7 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="col-lg-9 main-content">
+    <div class="col-lg-9 main-content" >
         <div class="tab-content">
                 <!-- 仪表 -->
                 <div class="tab-pane fade show active" id="dashboard">
@@ -526,7 +525,9 @@
                 <!-- 数据导入导出 -->
                 <div class="tab-pane fade" id="data_im_ex">
 
-                    <a href="{% url 'export_to_excel' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
+                    <a href="{% url 'export_to_excel_dishtable' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
+                    <a href="{% url 'export_to_excel_inventory' %}" class="btn btn-primary">库存Inventory导出为 Excel</a>
+                    <a href="{% url 'export_to_excel_supplier' %}" class="btn btn-primary">供应商Supplier导出为 Excel</a>
                 <!-- 日志 -->
                 </div>
                 <div class="tab-pane fade" id="version_log">
@@ -779,22 +780,22 @@
 
     <!--ajax内容-->
     <!--添加js-->
-    <script src="{% static '/zzy_js/dishtable_add.js' %}"></script>
+    <script src="{% static '/zzy_js/dishtable/dishtable_add.js' %}"></script>
     <script src="{% static '/zzy_js/supplier/supplier_add.js' %}"></script>
     <script src="{% static '/zzy_js/inventory/inventory_add.js' %}"></script>
 
     <!--删除js-->
-    <script src="{% static '/zzy_js/dishtable_delete.js' %}"></script>
+    <script src="{% static '/zzy_js/dishtable/dishtable_delete.js' %}"></script>
     <script src="{% static '/zzy_js/supplier/supplier_delete.js' %}"></script>
     <script src="{% static '/zzy_js/inventory/inventory_delete.js' %}"></script>
 
     <!--菜品添加js-->
-    <script src="{% static '/zzy_js/dishtable_update.js' %}"></script>
+    <script src="{% static '/zzy_js/dishtable/dishtable_update.js' %}"></script>
     <script src="{% static '/zzy_js/supplier/supplier_update.js' %}"></script>
     <script src="{% static '/zzy_js/inventory/inventory_update.js' %}"></script>
 
     <!--菜品查询js-->
-    <script src="{% static '/zzy_js/dishtable_query.js' %}"></script>
+    <script src="{% static '/zzy_js/dishtable/dishtable_query.js' %}"></script>
     <script src="{% static '/zzy_js/supplier/supplier_query.js' %}"></script>
     <script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
     <!--通用toast通知-->

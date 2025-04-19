@@ -7,6 +7,9 @@ fetch('/chart2-data/')
     .then(response => response.json())
     .then(data => {
         option2 = {
+            title: {
+                text: '菜品前台消费数量'
+            },
             legend: {
                 top: 'bottom'
             },

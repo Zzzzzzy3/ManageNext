@@ -45,7 +45,10 @@ urlpatterns = [
     path('inventory_edit/',views.inventory_edit,name='inventory_update'),
     path('inventory_query/',views.inventory_query,name='inventory_query'),
     #excel导出模块
-    path('export-excel/', views.export_to_excel, name='export_to_excel'),
+    path('export-excel/', views.export_to_excel_dishtable, name='export_to_excel_dishtable'),
+    path('export-excel1/', views.export_to_excel_inventory, name='export_to_excel_inventory'),
+    path('export-excel2/', views.export_to_excel_supplier, name='export_to_excel_supplier'),
+
     path('chart-data/', views.chart_data, name='chart_data'),
 
     path('chart2-data/', views.chart_data2, name='chart_data2'),

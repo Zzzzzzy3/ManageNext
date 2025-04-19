@@ -22,17 +22,19 @@ function sendMessage() {
         '- 优化version展示\n' +
         '## 1.2.0\n' +
         '- 实现了查询和编辑模块\n' +
-        '# 1.2.1\n' +
+        '## 1.2.1\n' +
         '\n' +
-        '完成supplier表的增删查改,完成注册部分\n' +
-        '# 1.2.2\n' +
-        '完成inventory表,user_login登录模块,user表\n' +
+        '- 完成supplier表的增删查改,完成注册部分\n' +
+        '## 1.2.2\n' +
+        '- 完成inventory表,user_login登录模块,user表\n' +
         '\n' +
-        '# 1.2.3\n' +
-        '完成chart1.chart2,重新修改首页设计\n' +
+        '## 1.2.3\n' +
+        '- 完成chart1.chart2,重新修改首页设计\n' +
         '\n' +
-        '# 2.0.0\n' +
-        '接入ai模块,完成基本设计,待优化SQL语句和索引优化'
+        '## 2.0.0\n' +
+        '- 接入ai模块,完成基本设计,待优化SQL语句和索引优化\n'+
+        '## 2.0.1\n' +
+        '- 完整导出模块'
 
     card.innerHTML = marked.parse(version_txt);
 

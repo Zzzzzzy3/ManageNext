@@ -11,9 +11,6 @@
 ### 一些用到的工具
 - MySQL_workbench
 ### 一些第三方库(必要)
-- openpyxl
-- mysqlclient
-- requests
 ```python
 pip install --upgrade openai
 pip install mysqlclient
@@ -49,5 +46,5 @@ pip install requests
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_main.png)
 ### Ai部分
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_ai.png)
-![]()
 ### 增删查改部分
+![]()

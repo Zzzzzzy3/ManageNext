@@ -1,4 +1,5 @@
 # 基于Django和Bootstrap5的食堂后台管理系统
+---这是成都理工大学数据库的作业项目。本项目为前端部分和后端部分。---
 ### 前端框架 Bootstrap
 ### 后端框架 Django
 
@@ -19,7 +20,8 @@ pip install mysqlclient
 pip install openpyxl
 pip install requests
 ```
-
+## 模块图解
+![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/map.png)
 ## 预览界面
 ### 主界面
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_main.png)

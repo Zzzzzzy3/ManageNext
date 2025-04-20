@@ -46,7 +46,8 @@ pip install requests
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_main.png)
 ### Ai部分
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_ai.png)
-### 增删查改部分
+### 实际表的模块展示
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_add.png)
+
 ### 学习过程中的笔记
 <https://github.com/Zzzzzzy3/python_django_learn>

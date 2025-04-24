@@ -1,4 +1,6 @@
+from tkinter import image_names
 
+import imgkit
 def func_sale(dish_table,inventory):
     a=b=0
     for i in dish_table:
@@ -8,6 +10,5 @@ def func_sale(dish_table,inventory):
     return a,b
 
 
-
-# if __name__ == '__main__':
-#     dish_sale()
+#if __name__ == '__main__':
+    #customer_trace()

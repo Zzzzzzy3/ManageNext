@@ -53,5 +53,5 @@ urlpatterns = [
 
     path('chart2-data/', views.chart_data2, name='chart_data2'),
     path('ai_chat/',views.ai_chat,name='ai_chat'),
-
+ path('chain_query/',views.chain_query,name='chain_query'),
 ]

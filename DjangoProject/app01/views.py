@@ -1,7 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
-
 from django.http import JsonResponse
 
 def login(request):
@@ -49,7 +47,7 @@ def login_register(request):
 
     return JsonResponse({'success': False, 'message': '非法请求方法'}, status=405)
 
-
+#2
 from django.http import JsonResponse
 from urllib.parse import parse_qs, unquote  # 添加unquote解码
 import time
@@ -57,10 +55,8 @@ from django.utils import timezone
 from django.views.decorators.http import require_GET
 from pyexpat.errors import messages
 from django.views.decorators.csrf import csrf_exempt
-from app01.models import DishTable
-from app01.models import Supplier
+from app01.models import DishTable,Supplier,User,Inventory,Customer,ConsumptionRecord,SupplierHasInventory
 from django.db import IntegrityError
-from .models import User, Inventory
 from .manage_function import func_sale
 import openpyxl
 import requests
@@ -72,8 +68,8 @@ def manage(request):
     supplier = Supplier.objects.all()
     inventory = Inventory.objects.all()
     dish_sales,inventory_number=func_sale(dish_table, inventory)
-
-    return render(request, "main_managenext.html", { 'user_login':user_login,'dish_table': dish_table,'supplier': supplier, 'inventory': inventory, 'dish_sales': dish_sales, 'inventory_number': inventory_number })
+    customer = Customer.objects.all()
+    return render(request, "main_managenext.html", { 'user_login':user_login,'dish_table': dish_table,'supplier': supplier, 'inventory': inventory, 'dish_sales': dish_sales, 'inventory_number': inventory_number, 'customer': customer })
 #用户模块
 def user_delete(request):
     if request.method == "POST":
@@ -578,7 +574,6 @@ def chart_data2(request):
     })
 #ai
 import json
-
 def ai_chat(request):
 
     url = "https://api.siliconflow.cn/v1/chat/completions"
@@ -619,3 +614,73 @@ def ai_chat(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+@require_GET
+def chain_query(request):
+    try:
+        # 获取查询参数
+        customer_name = request.GET.get('customer_name').strip()
+        dish_name = request.GET.get('dish_name', '').strip()
+        # 执行查询(待sql优化)
+        customers = Customer.objects.filter(customer_name=customer_name)
+        dish_tables=DishTable.objects.filter(dish_name=dish_name)
+        #如果 QuerySet 中只有一个对象，可以直接通过索引或 first() 方法提取出来。
+        if customers:
+            #提取查询集合(暂时只考虑一个)
+            customer = customers[0]
+            dish_table=dish_tables[0]
+            dish_id=dish_table.id
+            #顾客表
+            customer_id = customer.customer_id
+            gender = customer.gender
+            age= customer.age
+            #消费记录表
+            ConsumptionRecords=ConsumptionRecord.objects.filter(customer_id=customer.customer_id,dish_id=dish_id)
+            record=ConsumptionRecords[0]
+            consumption_time=record.time
+            consumption_id=record.consumption_id
+            #菜品表
+            dish_id=dish_table.id
+            #仓库表
+            Inventorys=Inventory.objects.filter(dish_id=dish_id)
+            inventory=Inventorys[0]#这里仓库有多个(现只考虑一个)
+            warehouse_loc=inventory.warehouse_loc
+            expiration_data=inventory.expiration_data
+            batch_no=inventory.batch_no
+            inventory_id=inventory.inventory_id
+            #联表(取supplier_id)
+            double_table=SupplierHasInventory.objects.filter(app01_inventory_inventory_id=inventory_id)
+            supplier_id=double_table[0].app01_supplier_supplier_id
+            #供应商表
+            suppliers=Supplier.objects.filter(supplier_id=supplier_id)
+            supplier=suppliers[0]
+            supplier_name=supplier.name
+            print("轨迹查询完成")
+            # 创建一个列表来存储对象的特定字段
+            data = []
+                # 提取每个对象的特定字段
+            item = {
+                "customer_name": customer_name,
+                "gender": gender,
+                "age": age,
+                "consumption_time": consumption_time,
+                "consumpton_id": consumption_id,
+                "dish_id": dish_id,
+                "dish_name": dish_name,
+                "warehouse_loc": warehouse_loc,
+                "expiration_data": expiration_data,
+                "batch_no": batch_no,
+                "inventory_id": inventory_id,
+                "supplier_name": supplier_name,
+            }
+            data.append(item)
+            return JsonResponse({
+                "status": "success",
+                # "count": inventorys.count(),
+                "data": data
+            })
+
+    except Exception as e:
+        return JsonResponse({
+            "status": "error",
+            "message": f"查询失败: {str(e)}"
+        }, status=500)

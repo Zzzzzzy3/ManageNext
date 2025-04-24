@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
     <!-- 引入 echarts.js -->
     <script src="{% static '/map/echarts.min.js' %}"></script>
+    <!-- CDN导入,后期考虑本地解析 -->
     <!-- md解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
-
-</head>
+    </head>
 <body>
 
 <!-- 顶部导航 -->
@@ -39,7 +39,7 @@
                     data-bs-toggle="collapse"
                     data-bs-target="#version">
                 <i class="bi bi-git me-1"></i>
-                <span class="version-badge" id="show_version">v2.0.0</span> <!-- 当前版本 -->
+                <span class="version-badge" id="show_version">v2.2.0</span> <!-- 当前版本 -->
             </button>
 
             <div id="version" class="collapse position-absolute top-100 end-0 mt-1">
@@ -48,7 +48,7 @@
                         <span class="text-white-80 fs-7">当前版本:</span>
                         <span class="text-white-80 fs-7" id="current_version">n1</span>
                     </div>
-                    <div class="text-success fs-8">最新版本:v2.0.0</div>
+                    <div class="text-success fs-8">最新版本:v2.2.0</div>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                     <i class="bi bi-speedometer2 me-2"></i>仪表盘
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab" data-bs-target="#users">
-                    <i class="bi bi-people me-2"></i>用户与权限
+                    <i class="bi bi-people me-2"></i>系统管理员
                     <span class="badge bg-primary rounded-pill float-end">1</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
@@ -84,6 +84,11 @@
                     <span class="badge bg-primary rounded-pill float-end">2</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
+                   data-bs-target="#chain">
+                    <i class="bi bi-link"></i>追踪食品消费供应链条
+                    <span class="badge bg-primary rounded-pill float-end">1</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#data_im_ex">
                     <i class="bi bi-share me-2"></i>交易数据导出
                     <span class="badge bg-primary rounded-pill float-end">3</span>
@@ -91,7 +96,7 @@
                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="tab"
                    data-bs-target="#version_log">
                     <i class="bi bi-calendar2-week"></i> 版本日志
-                    <span class="badge bg-primary rounded-pill float-end"></span>
+                    <span class="badge bg-primary rounded-pill float-end">1</span>
                 </a>
                 <button type="button"
                         class="list-group-item list-group-item-action list-group-item-danger mt-4 w-100"
@@ -312,6 +317,68 @@
                             </div>
                         </div>
                     </div>
+                        <!--顾客管理-->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><i class="bi bi-people me-2"></i>顾客管理</h4>
+                            <p>
+                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_user_add"
+                                   role="button" aria-expanded="false" aria-controls="collapse_user_add">
+                                    添加顾客/取消
+                                </a>
+                            </p>
+                            <div class="collapse " id="customer_user_add">
+                                <div class="card card-body">
+                                    <form method="post" class="row g-3" id="customer_add_Form">
+                                        {% csrf_token %}
+                                        <div class="col-auto"><input type="text" class="form-control" name="dish_name"
+                                                                     placeholder="顾客名字"></div>
+                                        <div class="col-auto"><input type="text" class="form-control" name="dish_amount"
+                                                                     placeholder="性别"></div>
+                                        <div class="col-auto"><input type="text" class="form-control" name="dish_price"
+                                                                     placeholder="年龄"></div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--table-->
+                            <div class="card-body">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>顾客ID</th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>年龄</th>
+                                        <th>删除/编辑</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="customer">
+                                    {% for item in customer %}
+                                        <tr>
+                                            <td data-id="{{ item.customer_id }}">{{ item.customer_id }}</td>
+                                            <td>{{ item.customer_name }}</td>
+                                            <td>{{ item.gender }}</td>
+                                            <td>{{ item.age }}</td>
+                                            <td>
+                                                <button class="btn badge-gradient-danger btn-sm"
+                                                        data-customerid="{{ item.id }}">
+                                                    删除
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm badge-gradient-warning edit-btn-costomer">编辑</button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- AI接入 -->
                 <div class="tab-pane fade" id="ai_analysis">
@@ -522,18 +589,149 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="chain">
+                        <!--trace-->
+                    <div class="card-header">
+                        <h4><i class="bi bi-bezier"></i>链条查询</h4>
+                        <h4>
+                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_chain_query"
+                                   role="button" aria-expanded="false" aria-controls="collapse_chain_query">
+                                    顾客食品供应链条查询
+                                </a>
+                        </h4>
+                            <div class="collapse" id="collapse_chain_query">
+                                <div class="card card-body">
+                                    <form id="searchForm">
+                                        <input type="text" id="search_chain_customername" placeholder="输入顾客姓名"
+                                               class="form-control">
+                                        <input type="text" id="search_chain_dishname" placeholder="输入菜品名称"
+                                               class="form-control">
+                                        <button type="button" class="btn btn-primary search-btn-chain">查询/刷新
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        <div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row mb-4" >
+                        <!-- 第一个卡片 -->
+                        <div class="col-md-3 mb-3 position-relative">
+                            <div class="card">
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">顾客信息</h5>
+                                    <div id="chain_card1">1</div>
+                                    <i class="bi bi-person fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 箭头连接列 -->
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <div class="arrow-container">
+                                <div class="animated-arrow"></div>
+                            </div>
+                        </div>
+                        <!-- 第二个卡片 -->
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">消费记录编号和时间</h5>
+                                    <div id="chain_card2">2</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 箭头连接列 -->
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <div class="arrow-container">
+                                <div class="animated-arrow"></div>
+                            </div>
+                        </div>
+                        <!-- 第三个卡片 -->
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">菜品详细</h5>
+                                    <div id="chain_card3">3</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 垂直箭头列 -->
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <div class="vertical-arrow " style="margin-left: 850px;"></div>
+                        </div>
+                        <!-- 第四个卡片 -->
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">库存位置</h5>
+                                    <div id="chain_card4">4</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <div class="arrow-container">
+                                <div class="animated-arrow"></div>
+                            </div>
+                        </div>
+                        <!-- 第五个卡片 -->
+                        <div class="col-md-3 mb-3 ">
+                            <div class="card ">
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">库存批次与保质期</h5>
+                                    <div id="chain_card5">5</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!--右箭头-->
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <div class="arrow-container">
+                                <div class="animated-arrow"></div>
+                            </div>
+                        </div>
+                        <!-- 第六个卡片 -->
+                        <div class="col-md-3 mb-3 ">
+                            <div class="card " >
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">库存标识ID</h5>
+                                    <div id="chain_card6">6</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- 垂直箭头列 -->
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <div class="vertical-arrow " style="margin-left: 850px;"></div>
+                        </div>
+                        <!-- 第七个卡片 -->
+                        <div class="col-md-3 mb-3 " style="margin-left: 940px">
+                            <div class="card " >
+                                <div class="card-body text-dark">
+                                    <h5 class="text-primary text-opacity-75">库存供应商</h5>
+                                    <div id="chain_card7">7</div>
+                                    <i class="bi bi-shop fs-1 float-end"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 数据导入导出 -->
                 <div class="tab-pane fade" id="data_im_ex">
-
+                    <hr>
                     <a href="{% url 'export_to_excel_dishtable' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
                     <a href="{% url 'export_to_excel_inventory' %}" class="btn btn-primary">库存Inventory导出为 Excel</a>
                     <a href="{% url 'export_to_excel_supplier' %}" class="btn btn-primary">供应商Supplier导出为 Excel</a>
-                <!-- 日志 -->
+                    <hr>
                 </div>
+        <!-- 日志 -->
                 <div class="tab-pane fade" id="version_log">
                     <div class="card">
                         <div class="card-body" id="version_log_card">
-
                         </div>
                     </div>
 
@@ -635,7 +833,7 @@
                                 </div>
                                 <label class="form-label">库内商品数量</label>
                                 <input type="text" class="form-control" name="amount" required>
-                            </div>
+
                             <div class="mb-3">
                                 <label class="form-label">保质期限</label>
                                 <input type="text" class="form-control" name="expiration_data" required>
@@ -659,6 +857,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                                 <button type="submit" class="btn btn-primary">保存更改</button>
+                            </div>
                             </div>
                         </form>
                     </div>
@@ -800,9 +999,11 @@
     <script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
     <!--通用toast通知-->
     <script src="{% static '/zzy_js/toast/toast_show.js' %}"></script>
-
+    <!--echarts.js-->
     <script src="{% static '/zzy_js/echart/dishtable_map.js' %}"></script>
     <!--aichat-->
     <script src="{% static '/zzy_js/ai_chat/ai_chat.js' %}"></script>
+    <!--chain-->
+    <script src="{% static '/zzy_js/chain/chain_query.js' %}"></script>
 </body>
 </html>

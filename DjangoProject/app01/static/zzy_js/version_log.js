@@ -34,7 +34,9 @@ function sendMessage() {
         '## 2.0.0\n' +
         '- 接入ai模块,完成基本设计,待优化SQL语句\n'+
         '## 2.0.1\n' +
-        '- 完整导出模块'
+        '- 完整导出模块'+
+        '## 2.2.0\n' +
+        '- 完成追踪模块,修复一些错误'
 
     card.innerHTML = marked.parse(version_txt);
 

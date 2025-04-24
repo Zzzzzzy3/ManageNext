@@ -37,9 +37,9 @@ document.getElementById("inventory_add_Form").addEventListener("submit", functio
                 tbody.append(newRow);
                 form.reset();
             } else {
-                const errorMsg = data.message.includes('已存在') ? '名称已存在' : data.message;
+                const errorMsg = data.message.includes('已存在') ? '名称已存在或关联错误' : data.message;
                 // const toastEl = document.getElementById('liveToast_error1');
-                // new bootstrap.Toast(toastEl).show();202319121330zzy
+                // new bootstrap.Toast(toastEl).show();
                 throw new Error(errorMsg);
             }
         })

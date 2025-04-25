@@ -60,3 +60,4 @@ pip install requests
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/trace_show.png)
 ### 学习过程中的笔记
 <https://github.com/Zzzzzzy3/python_django_learn>
+#### 交流方式vx:Zzz2zzy3

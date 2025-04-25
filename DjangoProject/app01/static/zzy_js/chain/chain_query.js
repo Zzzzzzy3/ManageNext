@@ -52,7 +52,7 @@ function updatecard_chain(data) {
     chain_card1.innerHTML =  `<h4>姓名: ${data[0].customer_name}</h4><h4>性别: ${data[0].gender}</h4><h4>年龄: ${data[0].age}</h4>`
     chain_card2.innerHTML =  `<h4>ID: ${data[0].consumpton_id}</h4><h5>时间: ${data[0].consumption_time}</h5>`
     chain_card3.innerHTML =  `<h5>菜品ID: ${data[0].dish_id}</h5><h5>菜品名称: ${data[0].dish_name}</h5>`
-    chain_card4.innerHTML =  `<h5>位置: ${data[0].warehouse_loc}</h5>`
+    chain_card4.innerHTML =  `<h5>位置: ${data[0].warehouse_loc}号仓</h5>`
     chain_card5.innerHTML =  `<h5>进货批次号: ${data[0].batch_no}</h5><h5>保质期限: ${data[0].expiration_data}天</h5>`
     chain_card6.innerHTML =  `<h5>库存ID: ${data[0].inventory_id}</h5>`
     chain_card7.innerHTML =  `<h5>供应商名: ${data[0].supplier_name}</h5>`

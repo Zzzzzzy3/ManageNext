@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+# Create your views here.
 
 def login(request):
     return render(request, 'login.html')
@@ -49,7 +50,7 @@ def login_register(request):
 
 #2
 from django.http import JsonResponse
-from urllib.parse import parse_qs, unquote  # 添加unquote解码
+from urllib.parse import parse_qs, unquote  # unquote解码
 import time
 from django.utils import timezone
 from django.views.decorators.http import require_GET
@@ -675,7 +676,6 @@ def chain_query(request):
             data.append(item)
             return JsonResponse({
                 "status": "success",
-                # "count": inventorys.count(),
                 "data": data
             })
 

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static '/img/logo1.png' %}"  type="image">
     <title>管理后台</title>
 
     <!-- Bootstrap CSS -->
@@ -952,7 +953,7 @@
 </div>
     <!-- Bootstrap JS -->
     <script src="{% static '/plugins/js/bootstrap.js' %}"></script>
-    <!-- js -->
+    <!-- 模拟加载数据 -->
     <script>
         const toast = new bootstrap.Toast(document.getElementById('liveToast'))
 
@@ -1002,8 +1003,6 @@
     <script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
     <!--通用toast通知-->
     <script src="{% static '/zzy_js/toast/toast_show.js' %}"></script>
-    <!--echarts.js-->
-    <script src="{% static '/zzy_js/echart/dishtable_map.js' %}"></script>
     <!--aichat-->
     <script src="{% static '/zzy_js/ai_chat/ai_chat.js' %}"></script>
     <!--chain-->

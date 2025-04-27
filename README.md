@@ -1,9 +1,9 @@
 # 基于Django和Bootstrap5的食堂后台智慧管理系统
 ---这是成都理工大学数据库的作业项目。本项目分为前端部分和后端部分。---
-### 前端框架 Bootstrap
-### 后端框架 Django
-
-#### 数据库  -MySQL:
+### 前端 Bootstrap
+- HTML/CSS/JavaScript
+### 后端 Django
+#### 数据库  -MySQL
 #### 前后端交互 - Ajax
 #### 图表 - Echarts
 #### Ai模型 - 通义千问Qwen/QwQ-32B

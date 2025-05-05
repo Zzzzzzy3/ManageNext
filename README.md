@@ -51,7 +51,7 @@ pip install requests
 ## 模块图解
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/map.png)
 ## ER图
-![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/diagram_mysql.png)
+![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/ER.png)
 ## Django结构
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/django_construction.png)
 ### 登录页面

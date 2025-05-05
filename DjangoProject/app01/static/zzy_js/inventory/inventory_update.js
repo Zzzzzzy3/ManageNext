@@ -49,7 +49,6 @@ function initEditInventory() {
                     }
 
                     const row = cell.closest('tr');
-                    // 修复HTML结构data-id属性
                     row.innerHTML = `
                 <td data-id="${data.inventory.id}">${data.inventory.id}</td>
                 <td>${data.inventory.product_name}</td>

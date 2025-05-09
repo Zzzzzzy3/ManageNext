@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-#userinfo不用管
+#userinfo不用管,django自带
 class UserInfo(AbstractUser):
     mobile = models.CharField(verbose_name='手机号', max_length=11)
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
@@ -10,7 +10,7 @@ class UserInfo(AbstractUser):
         db_table = 'user_info'
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
-
+#
 # 系统管理员模块
 class User(models.Model):
     name = models.CharField(max_length=100)

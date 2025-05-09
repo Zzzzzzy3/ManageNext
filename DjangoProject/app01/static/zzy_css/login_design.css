@@ -58,7 +58,7 @@
     box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
 }
 
-/* 新增装饰性渐变背景 */
+/* 装饰性渐变背景 */
 .login-card {
     background: linear-gradient(145deg, #ffffff, #f8f9fa);
     position: relative;
@@ -77,7 +77,7 @@
     border-radius: 22px;
 }
 
-/* 新增内容容器固定高度 */
+/*内容容器固定高度 */
 .tab-content {
     height: 100%;
     min-height: 400px;
@@ -98,21 +98,21 @@
     gap: 1rem;
 }
 
-/* 增强标题效果 */
+/* 标题效果 */
 .gradient-text {
     font-size: 2.5rem;
     letter-spacing: -0.5px;
     text-shadow: 0 2px 4px rgba(99, 102, 241, 0.15);
 }
 
-/* 优化输入框动画 */
+/* 输入框动画 */
 .form-control:focus {
     box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.3);
     transform: scale(1.03);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* 新增底部装饰条动画 */
+/* 底部装饰条动画 */
 .login-card::after {
     height: 6px;
     background: linear-gradient(90deg, #6366f1 0%, #4f46e5 50%, #6366f1 100%);
@@ -125,7 +125,7 @@
     height: 8px;
 }
 
-/* 增强按钮投影 */
+/* 按钮投影 */
 .btn-primary {
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);
 }

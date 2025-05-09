@@ -35,7 +35,10 @@ function sendMessage() {
         '## 2.0.1\n' +
         '- 完整导出模块\n'+
         '## 2.2.0\n' +
-        '- 完成追踪模块,修复一些错误'
+        '- 完成追踪模块,修复一些错误\n'+
+        '## 2.2.1\n' +
+        '- 完成sql优化,和索引优化\n'
+
 
     card.innerHTML = marked.parse(version_txt);
 

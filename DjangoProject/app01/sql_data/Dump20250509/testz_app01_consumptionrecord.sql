@@ -16,33 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `app01_supplier`
+-- Table structure for table `app01_consumptionrecord`
 --
 
-DROP TABLE IF EXISTS `app01_supplier`;
+DROP TABLE IF EXISTS `app01_consumptionrecord`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `app01_supplier` (
-  `supplier_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `contact_person` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `updated_time` datetime(6) NOT NULL,
-  PRIMARY KEY (`supplier_id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `app01_consumptionrecord` (
+  `consumption_id` int NOT NULL AUTO_INCREMENT,
+  `consumption_name` varchar(80) DEFAULT NULL,
+  `price` varchar(45) NOT NULL,
+  `time` datetime(6) DEFAULT NULL,
+  `dish_id` bigint DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  PRIMARY KEY (`consumption_id`),
+  KEY `app01_consumptionrecord_dish_id_bc2856a4_fk_app01_dishtable_id` (`dish_id`),
+  KEY `app01_consumptionrec_customer_id_8e18c5cc_fk_app01_cus` (`customer_id`),
+  CONSTRAINT `app01_consumptionrec_customer_id_8e18c5cc_fk_app01_cus` FOREIGN KEY (`customer_id`) REFERENCES `app01_customer` (`customer_id`),
+  CONSTRAINT `app01_consumptionrecord_dish_id_bc2856a4_fk_app01_dishtable_id` FOREIGN KEY (`dish_id`) REFERENCES `app01_dishtable` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `app01_supplier`
+-- Dumping data for table `app01_consumptionrecord`
 --
 
-LOCK TABLES `app01_supplier` WRITE;
-/*!40000 ALTER TABLE `app01_supplier` DISABLE KEYS */;
-INSERT INTO `app01_supplier` VALUES (1,'123','123','123','123','123','2021-03-30 00:00:00.000000'),(2,'22','123','123','123','123','2025-04-10 04:59:59.179408'),(3,'221','123','123','123','123','2025-04-10 05:02:43.002287'),(4,'2212','123','123','123','123','2025-04-10 05:04:00.457687'),(5,'22123','123','123','123','123','2025-04-10 05:07:32.217146'),(15,'101','123','123','123','123','2025-04-10 09:22:26.403485'),(16,'1111111','123','123','123','123','2025-04-10 14:05:58.214545'),(18,'阿','123','123','123','123','2025-04-11 15:08:36.887395'),(19,'阿1','123','123','123','123','2025-04-12 01:45:00.020068');
-/*!40000 ALTER TABLE `app01_supplier` ENABLE KEYS */;
+LOCK TABLES `app01_consumptionrecord` WRITE;
+/*!40000 ALTER TABLE `app01_consumptionrecord` DISABLE KEYS */;
+INSERT INTO `app01_consumptionrecord` VALUES (1,'周振宇','15','2025-04-16 11:20:39.080491',1,1),(2,'zzy','16','2025-03-28 11:20:39.080491',99,3);
+/*!40000 ALTER TABLE `app01_consumptionrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 11:54:17
+-- Dump completed on 2025-05-09 13:05:30

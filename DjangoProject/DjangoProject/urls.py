@@ -32,7 +32,7 @@ urlpatterns = [
     path('DishTable_delete/', views.dish_table_delete, name='dish_table_delete'),
     path('DishTable_edit/', views.dish_table_edit, name='dish_table_edit'),
     path('DishTable_query/', views.dish_table_query, name='dish_query'),
-
+    path('DishTable_price_desc/',views.dish_table_price_desc, name='dish_table_price_desc'),
     #supplier_ajax
     path('Supplier_add/', views.supplier_add, name='supplier_add'),
     path('Supplier_delete/', views.supplier_delete, name='supplier_delete'),

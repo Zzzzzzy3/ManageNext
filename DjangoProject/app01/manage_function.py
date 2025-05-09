@@ -41,14 +41,28 @@ def trace_query(customer_name,dish_name):
             LIMIT 1  -- 获取最新消费记录
             """
             cursor.execute(sql, [customer_name, dish_name])
-            # 将结果转换为字典
+            # 将结果转换为字典,col1,clo2...
             columns = [col[0] for col in cursor.description]
             result = cursor.fetchone()
             if not result:
                 return 0
             data = [dict(zip(columns, result))]
-            print("ok")
+            print("trace_query is done")
             return data
     finally:
         cursor.close()
 
+def dish_table_price_descr():
+    try:
+        with connection.cursor() as cursor:
+            sql="""
+            SELECT
+                dish_name,dish_price
+            FROM app01_dishtable
+            WHERE  dish_name="鱼" AND dish_price="8"
+            """
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            print(result)
+    finally:
+        cursor.close()

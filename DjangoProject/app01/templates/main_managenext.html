@@ -43,7 +43,7 @@
                     data-bs-toggle="collapse"
                     data-bs-target="#version">
                 <i class="bi bi-git me-1"></i>
-                <span class="version-badge" id="show_version">v2.2.0</span> <!-- 当前版本 -->
+                <span class="version-badge" id="show_version">v2.2.1</span> <!-- 当前版本 -->
             </button>
 
             <div id="version" class="collapse position-absolute top-100 end-0 mt-1">
@@ -52,7 +52,7 @@
                         <span class="text-white-80 fs-7">当前版本:</span>
                         <span class="text-white-80 fs-7" id="current_version">n1</span>
                     </div>
-                    <div class="text-success fs-8">最新版本:v2.2.0</div>
+                    <div class="text-success fs-8">最新版本:v2.2.1</div>
                 </div>
             </div>
         </div>
@@ -258,12 +258,15 @@
                         <div class="card-header">
                             <h4><i class="bi bi-people me-2"></i>菜品管理</h4>
                             <p>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_user_add"
+                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_dish_add"
                                    role="button" aria-expanded="false" aria-controls="collapse_user_add">
                                     添加菜品/取消
                                 </a>
+                                <a id="dishtable_price_desc">
+                                <button type="button" class="btn btn-success search-btn-price-desc">查询特定菜品价格(仅用来测试索引优化,不展示前端)</button>
+                                </a>
                             </p>
-                            <div class="collapse " id="collapse_user_add">
+                            <div class="collapse " id="collapse_dish_add">
                                 <div class="card card-body">
                                     <form method="post" class="row g-3" id="dishtable_add_Form">
                                         {% csrf_token %}
@@ -977,6 +980,32 @@
 
         // 首次加载数据
         loadData()
+        //
+        document.querySelectorAll('.search-btn-price-desc').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const data = {
+                    data: "数据"
+                };
+
+                // 使用fetch发送POST请求
+                fetch("/DishTable_price_desc/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}", // Django的CSRF保护
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        alert(data.result); // 显示处理后的结果
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+        });
 
     </script>
 
@@ -1010,6 +1039,7 @@
     <script src="{% static '/zzy_js/dishtable/dishtable_query.js' %}"></script>
     <script src="{% static '/zzy_js/supplier/supplier_query.js' %}"></script>
     <script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
+    <script src="{% static '/zzy_js/dishtable/dishtable_price_desc.js' %}"></script>
     <!--通用toast通知-->
     <script src="{% static '/zzy_js/toast/toast_show.js' %}"></script>
     <!--aichat-->

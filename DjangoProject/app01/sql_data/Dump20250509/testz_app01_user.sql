@@ -16,29 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `django_content_type`
+-- Table structure for table `app01_user`
 --
 
-DROP TABLE IF EXISTS `django_content_type`;
+DROP TABLE IF EXISTS `app01_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `django_content_type` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL,
+CREATE TABLE `app01_user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `django_content_type`
+-- Dumping data for table `app01_user`
 --
 
-LOCK TABLES `django_content_type` WRITE;
-/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (7,'app01','department'),(10,'app01','dishtable'),(13,'app01','inventory'),(8,'app01','role'),(6,'app01','student'),(11,'app01','supplier'),(9,'app01','user'),(12,'app01','userinfo'),(2,'auth','group'),(1,'auth','permission'),(3,'auth','user'),(4,'contenttypes','contenttype'),(5,'sessions','session');
-/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+LOCK TABLES `app01_user` WRITE;
+/*!40000 ALTER TABLE `app01_user` DISABLE KEYS */;
+INSERT INTO `app01_user` VALUES (30,'123','1234@qq.com','2025-04-10 15:14:31.151029','123'),(33,'hzy','123456@qq.com','2025-04-13 03:09:46.483367','123'),(34,'zzy','810364614@qq.com','2025-04-16 12:10:58.280346','123'),(35,'zzzy','321@qq.com','2025-04-26 01:00:35.511589','123');
+/*!40000 ALTER TABLE `app01_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 11:54:18
+-- Dump completed on 2025-05-09 13:05:30

@@ -16,31 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `auth_user_user_permissions`
+-- Table structure for table `app01_dishtable`
 --
 
-DROP TABLE IF EXISTS `auth_user_user_permissions`;
+DROP TABLE IF EXISTS `app01_dishtable`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `auth_user_user_permissions` (
+CREATE TABLE `app01_dishtable` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `permission_id` int NOT NULL,
+  `dish_name` varchar(80) NOT NULL,
+  `dish_amount` int NOT NULL,
+  `dish_price` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
-  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
-  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `app01_dishtable_dish_name_1c05fabb_uniq` (`dish_name`),
+  KEY `app01_dishtable_dish_price_a32b211a` (`dish_price`)
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `auth_user_user_permissions`
+-- Dumping data for table `app01_dishtable`
 --
 
-LOCK TABLES `auth_user_user_permissions` WRITE;
-/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+LOCK TABLES `app01_dishtable` WRITE;
+/*!40000 ALTER TABLE `app01_dishtable` DISABLE KEYS */;
+INSERT INTO `app01_dishtable` VALUES (1,'茄子',21,'5.0'),(44,'大蒜',10,'5.0'),(99,'玉米',10,'5.0'),(104,'木瓜',10,'5'),(114,'牛肉',13,'12'),(115,'土豆',14,'13.5'),(116,'韭菜',20,'5'),(117,'虾仁',21,'10'),(118,'胡萝卜',12,'4'),(119,'生姜',18,'3'),(120,'鱼',15,'8'),(121,'西瓜',10,'2'),(122,'鱿鱼',17,'8');
+/*!40000 ALTER TABLE `app01_dishtable` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 11:54:16
+-- Dump completed on 2025-05-09 13:05:30

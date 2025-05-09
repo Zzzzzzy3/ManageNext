@@ -16,31 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_info_groups`
+-- Table structure for table `app01_supplierhasinventory`
 --
 
-DROP TABLE IF EXISTS `user_info_groups`;
+DROP TABLE IF EXISTS `app01_supplierhasinventory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_info_groups` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `userinfo_id` bigint NOT NULL,
-  `group_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_info_groups_userinfo_id_group_id_5d98b495_uniq` (`userinfo_id`,`group_id`),
-  KEY `user_info_groups_group_id_0ab8784b_fk_auth_group_id` (`group_id`),
-  CONSTRAINT `user_info_groups_group_id_0ab8784b_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  CONSTRAINT `user_info_groups_userinfo_id_b55cc224_fk_user_info_id` FOREIGN KEY (`userinfo_id`) REFERENCES `user_info` (`id`)
+CREATE TABLE `app01_supplierhasinventory` (
+  `app01_supplier_supplier_id` int NOT NULL,
+  `app01_inventory_inventory_id` int NOT NULL,
+  PRIMARY KEY (`app01_supplier_supplier_id`),
+  KEY `app01_app01supplierh_app01_inventory_inve_275fe3c2_fk_app01_inv` (`app01_inventory_inventory_id`),
+  CONSTRAINT `app01_app01supplierh_app01_inventory_inve_275fe3c2_fk_app01_inv` FOREIGN KEY (`app01_inventory_inventory_id`) REFERENCES `app01_inventory` (`inventory_id`),
+  CONSTRAINT `app01_app01supplierh_app01_supplier_suppl_12c6cfba_fk_app01_sup` FOREIGN KEY (`app01_supplier_supplier_id`) REFERENCES `app01_supplier` (`supplier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_info_groups`
+-- Dumping data for table `app01_supplierhasinventory`
 --
 
-LOCK TABLES `user_info_groups` WRITE;
-/*!40000 ALTER TABLE `user_info_groups` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_info_groups` ENABLE KEYS */;
+LOCK TABLES `app01_supplierhasinventory` WRITE;
+/*!40000 ALTER TABLE `app01_supplierhasinventory` DISABLE KEYS */;
+INSERT INTO `app01_supplierhasinventory` VALUES (20,11),(22,31);
+/*!40000 ALTER TABLE `app01_supplierhasinventory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 11:54:20
+-- Dump completed on 2025-05-09 13:05:30

@@ -21,10 +21,10 @@ class User(models.Model):
         return self.name
 
 class DishTable(models.Model):
-    dish_name = models.CharField(max_length=80,unique=True)
+    dish_name = models.CharField(max_length=80,db_index=True,unique=True)
     #前台菜品消费数量
     dish_amount = models.IntegerField()
-    dish_price = models.CharField(max_length=100)
+    dish_price = models.CharField(max_length=100,db_index=True)
 
 #供应商supplier
 class Supplier(models.Model):
@@ -59,7 +59,7 @@ class SupplierHasInventory(models.Model):
 #customer
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    customer_name = models.CharField(max_length=80, blank=True, null=True)
+    customer_name = models.CharField(max_length=80,db_index=True, blank=True, null=True)
     gender = models.CharField(max_length=45)
     age = models.CharField(max_length=45)
 

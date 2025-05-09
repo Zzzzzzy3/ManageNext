@@ -633,3 +633,16 @@ def chain_query(request):
             "status": "error",
             "message": f"查询失败: {str(e)}"
         }, status=500)
+from .manage_function import dish_table_price_descr
+
+def dish_table_price_desc(request):
+    if request.method == "POST":
+        # 获取前端发送的数据
+        data = request.POST.get("data")
+        # 执行业务逻辑
+        dish_table_price_descr()
+        result = f"处理后的结果：{data}"
+        # 返回JSON响应
+        return JsonResponse({"status": "success", "result": result})
+    else:
+        return JsonResponse({"status": "error", "message": "只接受POST请求"})

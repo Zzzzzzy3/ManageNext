@@ -34,7 +34,7 @@ CREATE TABLE `app01_inventory` (
   PRIMARY KEY (`inventory_id`),
   KEY `app01_inventory_dish_id_0b53a6af_fk_app01_dishtable_id` (`dish_id`),
   CONSTRAINT `app01_inventory_dish_id_0b53a6af_fk_app01_dishtable_id` FOREIGN KEY (`dish_id`) REFERENCES `app01_dishtable` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `app01_inventory` (
 
 LOCK TABLES `app01_inventory` WRITE;
 /*!40000 ALTER TABLE `app01_inventory` DISABLE KEYS */;
-INSERT INTO `app01_inventory` VALUES (11,'茄子','2','1','1','蔬菜',1,1),(30,'大蒜','2','3','4','蔬菜',44,10),(31,'玉米','10','3','4','蔬菜',99,16),(32,'木瓜','7','3','4','水果',104,20),(33,'牛肉','7','3','4','肉类',114,25),(34,'土豆','7','3','4','蔬菜',115,30),(35,'韭菜','7','3','4','蔬菜',116,19),(36,'虾仁','7','3','4','肉类',117,19),(37,'虾仁','7','3','4','肉类',117,20),(39,'茄子','7','3','4','蔬菜',1,30),(40,'胡萝卜','7','3','4','蔬菜',118,29),(41,'生姜','7','3','4','蔬菜',119,30);
+INSERT INTO `app01_inventory` VALUES (11,'茄子','2','1','1','蔬菜',1,1),(30,'大蒜','2','3','4','蔬菜',44,10),(31,'玉米','10','3','4','蔬菜',99,16),(32,'木瓜','7','3','4','水果',104,20),(33,'牛肉','7','3','4','肉类',114,25),(34,'土豆','7','3','4','蔬菜',115,30),(35,'韭菜','7','3','4','蔬菜',116,19),(36,'虾仁','7','3','4','海鲜',117,19),(37,'虾仁','7','3','4','海鲜',117,20),(39,'茄子','7','3','4','蔬菜',1,30),(40,'胡萝卜','7','3','4','蔬菜',118,29),(41,'生姜','7','3','4','蔬菜',119,30),(42,'鱼','7','3','4','肉类',120,30),(43,'西瓜','1','3','1','水果',121,20),(55,'鱿鱼','13','2','1','肉类',122,15);
 /*!40000 ALTER TABLE `app01_inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 11:54:18
+-- Dump completed on 2025-05-09 13:05:29

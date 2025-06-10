@@ -7,17 +7,24 @@
 #### 前后端交互 - Ajax
 #### 图表 - Echarts
 #### Ai模型 - 通义千问Qwen/QwQ-32B
+___
+
+
+### 项目依赖
+```python
+pip install -r requirements.txt #包依赖
+```
+```python
+将sql_data文件里的记录导入到mysql #数据依赖
+```
 
 ### 一些用到的工具
 - MySQL_workbench
 - boardmix
+
 ### 一些第三方库(必要)
-- ai调用,mysql代理,操作excel,api工具
 ```python
-pip install --upgrade openai
-pip install mysqlclient
-pip install openpyxl
-pip install requests
+openai mysqlclient openpyxl requests #mysql代理 ai调用 excel操作 api工具
 ```
 ## 模块架构
 ```

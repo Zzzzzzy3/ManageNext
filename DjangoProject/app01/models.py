@@ -73,5 +73,6 @@ class ConsumptionRecord(models.Model):
     customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE, verbose_name='FK_consumptionRecord1',related_name='consumptionRecord', ) #反向查询,customer->consumptionRecord.all()
     dish = models.ForeignKey(DishTable, null=True, blank=True, on_delete=models.CASCADE, verbose_name='FK_consumptionRecord2', related_name='consumptionRecord2', )
 
+
 #python manage.py makemigrations
 #python manage.py migrate

@@ -1,0 +1,14 @@
+{% for item in dish_table %}
+    <tr>
+        <td data-id="{{ item.id }}">{{ item.id }}</td>
+        <td>{{ item.dish_name }}</td>
+        <td>{{ item.dish_amount }}</td>
+        <td>{{ item.dish_price }}</td>
+        <td>
+            <button class="btn badge-gradient-danger btn-sm" data-dishid="{{ item.id }}">删除</button>
+        </td>
+        <td>
+            <button class="btn btn-sm badge-gradient-warning edit-btn">编辑</button>
+        </td>
+    </tr>
+{% endfor %}

@@ -27,6 +27,9 @@ urlpatterns = [
     path('user/delete/', views.user_delete, name='user_delete'),
     #主页面
     path('ManageNext/', views.manage),
+    #测试 Django AJAX实现(渐进式页面更新)
+    path('dish_table_ajax/', views.dish_table_ajax, name='dish_table_ajax'),
+    ###
     # dishtable_ajax
     path('DishTable_add/', views.dish_table_add, name='dish_table_add'),
     path('DishTable_delete/', views.dish_table_delete, name='dish_table_delete'),

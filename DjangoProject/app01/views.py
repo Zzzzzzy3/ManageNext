@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 # Create your views here.
 
 def login(request):
@@ -61,6 +62,8 @@ from django.db import IntegrityError
 from .manage_function import func_sale
 import openpyxl
 import requests
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 def manage(request):
@@ -70,7 +73,22 @@ def manage(request):
     inventory = Inventory.objects.all()
     dish_sales,inventory_number=func_sale(dish_table, inventory)
     customer = Customer.objects.all()
-    return render(request, "main_managenext.html", { 'user_login':user_login,'dish_table': dish_table,'supplier': supplier, 'inventory': inventory, 'dish_sales': dish_sales, 'inventory_number': inventory_number, 'customer': customer })
+
+    # 分页处理paginator - 菜品表
+    dish_paginator = Paginator(dish_table, 10)  # 每页10条
+    page_number = request.GET.get('page')  # 从URL获取页码
+    dish_page_obj = dish_paginator.get_page(page_number)
+
+    return render(request, "main_managenext.html", {
+        'user_login':user_login,
+        'dish_table': dish_page_obj,
+        'supplier': supplier,
+        'inventory': inventory,
+        'dish_sales': dish_sales,
+        'inventory_number': inventory_number,
+        'customer': customer,
+        'page_obj': dish_page_obj  # 传递分页对象到模板
+    })
 #用户模块
 def user_delete(request):
     if request.method == "POST":
@@ -646,3 +664,21 @@ def dish_table_price_desc(request):
         return JsonResponse({"status": "success", "result": result})
     else:
         return JsonResponse({"status": "error", "message": "只接受POST请求"})
+
+# views.py
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+
+def dish_table_ajax(request):
+    dish_table = DishTable.objects.all()
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(dish_table, 10)
+    page_obj = paginator.get_page(page_number)
+
+    html = render_to_string("partials/dish_table_body.html", {"dish_table": page_obj})
+    pagination_html = render_to_string("partials/dish_table_pagination.html", {"page_obj": page_obj})
+    return JsonResponse({
+        "table_html": html,
+        "pagination_html": pagination_html
+    })

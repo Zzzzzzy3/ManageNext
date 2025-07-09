@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{% static '/img/logo1.png' %}"  type="image">
+    <link rel="icon" href="{% static '/img/logo1.png' %}" type="image">
     <title>管理后台</title>
 
     <!-- Bootstrap CSS -->
@@ -15,12 +15,11 @@
     <link rel="stylesheet" href="{% static '/zzy_css/for_project1.css' %}">
     <!-- 引入 echarts.js -->
     <script src="{% static '/map/echarts.min.js' %}"></script>
-    <!-- CDN导入 -->
-    <!-- md解析库 -->
+    <!-- CDN导入 md解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
-    </head>
+</head>
 <body>
 
 <!-- 顶部导航 -->
@@ -36,7 +35,8 @@
         <!-- 版本组件 -->
         <div class="d-flex align-items-center position-relative">
             <div>
-                <a class="text-muted" href="https://github.com/Zzzzzzy3/ManageNext"><i class="bi bi-github fs-3 bg-opacity-50" style="margin-right: 20px"></i></a>
+                <a class="text-muted" href="https://github.com/Zzzzzzy3/ManageNext"><i
+                        class="bi bi-github fs-3 bg-opacity-50" style="margin-right: 20px"></i></a>
             </div>
             <button type="button"
                     class="btn btn-outline-light btn-hover-glow"
@@ -113,7 +113,7 @@
                     <div>
                         |bootstrap v5.3.0-alpha1|
                         <div>
-                          |Django 5.1.7|python v3.13.2|
+                            |Django 5.1.7|python v3.13.2|
                         </div>
                         <div>
                             |MySQL 8.0.19|
@@ -128,10 +128,10 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="col-lg-9 main-content" >
+    <div class="col-lg-9 main-content">
         <div class="tab-content">
-                <!-- 仪表 -->
-                <div class="tab-pane fade show active" id="dashboard">
+            <!-- 仪表 -->
+            <div class="tab-pane fade show active" id="dashboard">
                 <!-- 数据卡片 -->
 
                 <div class="row mb-4">
@@ -157,7 +157,7 @@
                         <div class="card ">
                             <div class="card-body text-dark">
                                 <h5>公告栏</h5>
-                                <h6>1.数据在编辑和添加后需要空值查询一次才能重新绑定事件</h6>
+                                <h6>1.最近更新于2025/7/9 实现ajax无刷新页面分页,编辑后事件重新排序</h6>
                                 <i class="bi bi-chat-left-text fs-1 float-end"></i>
                             </div>
                         </div>
@@ -211,646 +211,687 @@
                     <!-- 图表区域 -->
                 </div>
             </div>
-                <!-- 用户管理 -->
-                <div class="tab-pane fade" id="users">
-                    <!-- 用户管理内容 -->
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="bi bi-people me-2"></i>用户列表
-                            <!--用户模块 -->
+            <!-- 用户管理 -->
+            <div class="tab-pane fade" id="users">
+                <!-- 用户管理内容 -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-people me-2"></i>用户列表
+                        <!--用户模块 -->
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>用户唯一id</th>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>创建时间</th>
+                                <th>密码</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody id="userTable">
+
+                            {% for item in user_login %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.created_at }}</td>
+                                    <td>{{ item.password }}</td>
+                                    <td>
+                                        <button class="btn badge-gradient-danger" data-userid={{ item.id }}>删除
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 前台管理 -->
+            <div class="tab-pane fade" id="front_manage">
+                <!-- 菜品管理:标准 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="bi bi-people me-2"></i>菜品管理</h4>
+                        <p>
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_dish_add"
+                               role="button" aria-expanded="false" aria-controls="collapse_user_add">
+                                添加菜品/取消
+                            </a>
+                            <a id="dishtable_price_desc">
+                                <button type="button" class="btn btn-success search-btn-price-desc">
+                                    查询特定菜品价格(仅用来测试索引优化,不展示前端)
+                                </button>
+                            </a>
+                        </p>
+                        <div class="collapse " id="collapse_dish_add">
+                            <div class="card card-body">
+                                <form method="post" class="row g-3" id="dishtable_add_Form">
+                                    {% csrf_token %}
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_name"
+                                                                 placeholder="菜品名字"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_amount"
+                                                                 placeholder="菜品前台消费数量"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_price"
+                                                                 placeholder="价格"></div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+                        <!--table-->
                         <div class="card-body">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>用户唯一id</th>
-                                    <th>用户名</th>
-                                    <th>邮箱</th>
-                                    <th>创建时间</th>
-                                    <th>密码</th>
-                                    <th>删除</th>
+                                    <th>菜品唯一标识ID</th>
+                                    <th>菜品名称</th>
+                                    <th>菜品前台消费数量</th>
+                                    <th>菜品价格</th>
+                                    <th>删除/编辑</th>
                                 </tr>
                                 </thead>
-                                <tbody id="userTable">
+                                <tbody id="dishtable">
+                                {% include 'partials/dish_table_body.html' %}
+                                </tbody>
+                            </table>
+                            <div id="dish-pagination">
+                                {% include 'partials/dish_table_pagination.html' %}
+                            </div>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                                $(document).on("click", ".page-ajax-link", function (e) {
+                                    e.preventDefault();
+                                    const url = $(this).attr("href");
 
-                                {% for item in user_login %}
+                                    $.ajax({
+                                        url: "{% url 'dish_table_ajax' %}" + url, // 注意前后拼接
+                                        method: "GET",
+                                        success: function (data) {
+                                            $("#dishtable").html(data.table_html);
+                                            $("#dish-pagination").html(data.pagination_html);
+                                            initEditHandlers();
+                                            initDeleteHandlers();
+                                        },
+                                        error: function () {
+                                            alert("分页请求失败，请稍后再试！");
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- 分页导航结束 -->
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- 搜索表单 -->
+                                <h5>菜品查询</h5>
+                                <form id="searchForm">
+                                    <input type="number" id="search_id" placeholder="输入菜品ID"
+                                           class="form-control">
+                                    <input type="text" id="search_name" placeholder="输入菜品名称"
+                                           class="form-control">
+                                    <button type="button" class="btn btn-primary search-btn">查询</button>
+                                </form>
+                                <div>
+                                    <footer class="blockquote-footer text-end">空值启用刷新</footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--顾客管理-->
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="bi bi-people me-2"></i>顾客管理</h4>
+                        <p>
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_user_add"
+                               role="button" aria-expanded="false" aria-controls="collapse_user_add">
+                                添加顾客/取消
+                            </a>
+                        </p>
+                        <div class="collapse " id="collapse_user_add">
+                            <div class="card card-body">
+                                <form method="post" class="row g-3" id="customer_add_Form">
+                                    {% csrf_token %}
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_name"
+                                                                 placeholder="顾客名字"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_amount"
+                                                                 placeholder="性别"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish_price"
+                                                                 placeholder="年龄"></div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--table-->
+                        <div class="card-body">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>顾客ID</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
+                                    <th>删除/编辑</th>
+                                </tr>
+                                </thead>
+                                <tbody id="customer">
+                                {% for item in customer %}
                                     <tr>
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.email }}</td>
-                                        <td>{{ item.created_at }}</td>
-                                        <td>{{ item.password }}</td>
+                                        <td data-id="{{ item.customer_id }}">{{ item.customer_id }}</td>
+                                        <td>{{ item.customer_name }}</td>
+                                        <td>{{ item.gender }}</td>
+                                        <td>{{ item.age }}</td>
                                         <td>
-                                            <button class="btn badge-gradient-danger" data-userid={{ item.id }}>删除
+                                            <button class="btn badge-gradient-danger btn-sm"
+                                                    data-customerid="{{ item.id }}">
+                                                删除
                                             </button>
                                         </td>
-
+                                        <td>
+                                            <button class="btn btn-sm badge-gradient-warning edit-btn-costomer">编辑
+                                            </button>
+                                        </td>
                                     </tr>
                                 {% endfor %}
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- 前台管理 -->
-                <div class="tab-pane fade" id="front_manage">
-                    <!-- 菜品管理:标准 -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="bi bi-people me-2"></i>菜品管理</h4>
-                            <p>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_dish_add"
-                                   role="button" aria-expanded="false" aria-controls="collapse_user_add">
-                                    添加菜品/取消
-                                </a>
-                                <a id="dishtable_price_desc">
-                                <button type="button" class="btn btn-success search-btn-price-desc">查询特定菜品价格(仅用来测试索引优化,不展示前端)</button>
-                                </a>
-                            </p>
-                            <div class="collapse " id="collapse_dish_add">
-                                <div class="card card-body">
-                                    <form method="post" class="row g-3" id="dishtable_add_Form">
-                                        {% csrf_token %}
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_name"
-                                                                     placeholder="菜品名字"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_amount"
-                                                                     placeholder="菜品前台消费数量"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_price"
-                                                                     placeholder="价格"></div>
-                                        <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!--table-->
-                            <div class="card-body">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>菜品唯一标识ID</th>
-                                        <th>菜品名称</th>
-                                        <th>菜品前台消费数量</th>
-                                        <th>菜品价格</th>
-                                        <th>删除/编辑</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="dishtable">
-                                    {% for item in dish_table %}
-                                        <tr>
-                                            <td data-id="{{ item.id }}">{{ item.id }}</td>
-                                            <td>{{ item.dish_name }}</td>
-                                            <td>{{ item.dish_amount }}</td>
-                                            <td>{{ item.dish_price }}</td>
-                                            <td>
-                                                <button class="btn badge-gradient-danger btn-sm"
-                                                        data-dishid="{{ item.id }}">
-                                                    删除
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm badge-gradient-warning edit-btn">编辑</button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- 搜索表单 -->
-                                    <h5>菜品查询</h5>
-                                    <form id="searchForm">
-                                        <input type="number" id="search_id" placeholder="输入菜品ID"
-                                               class="form-control">
-                                        <input type="text" id="search_name" placeholder="输入菜品名称"
-                                               class="form-control">
-                                        <button type="button" class="btn btn-primary search-btn">查询</button>
-                                    </form>
-                                    <div>
-                                        <footer class="blockquote-footer text-end">空值启用刷新</footer>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <!--顾客管理-->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="bi bi-people me-2"></i>顾客管理</h4>
-                            <p>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_user_add"
-                                   role="button" aria-expanded="false" aria-controls="collapse_user_add">
-                                    添加顾客/取消
-                                </a>
-                            </p>
-                            <div class="collapse " id="collapse_user_add">
-                                <div class="card card-body">
-                                    <form method="post" class="row g-3" id="customer_add_Form">
-                                        {% csrf_token %}
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_name"
-                                                                     placeholder="顾客名字"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_amount"
-                                                                     placeholder="性别"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish_price"
-                                                                     placeholder="年龄"></div>
-                                        <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!--table-->
-                            <div class="card-body">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>顾客ID</th>
-                                        <th>姓名</th>
-                                        <th>性别</th>
-                                        <th>年龄</th>
-                                        <th>删除/编辑</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="customer">
-                                    {% for item in customer %}
-                                        <tr>
-                                            <td data-id="{{ item.customer_id }}">{{ item.customer_id }}</td>
-                                            <td>{{ item.customer_name }}</td>
-                                            <td>{{ item.gender }}</td>
-                                            <td>{{ item.age }}</td>
-                                            <td>
-                                                <button class="btn badge-gradient-danger btn-sm"
-                                                        data-customerid="{{ item.id }}">
-                                                    删除
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm badge-gradient-warning edit-btn-costomer">编辑</button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-                <!-- AI接入 -->
-                <div class="tab-pane fade" id="ai_analysis">
-                    <div class="card">
-                        <div class="card-header">
-
-                            <h2> <img src="{% static '/img/Tongyi.svg' %}" alt="" style="height: 40px;width:40px"> AI分析</h2>
-                              <div class="blockquote-footer text-end">基于通义千问Qwen/QwQ-32B</div>
-                        </div>
-                        <div class="card-body">
-
-                            <div id="chat-box">
-
-                            </div>
-                            <hr>
-                            <div class="mb-3">
-                                <textarea id="user-input" class="form-control" rows="2" placeholder="请输入你的问题..."></textarea>
-                            </div>
-                            <button onclick="sendMessage()" class="btn badge-gradient-success">发送</button>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- 库存与采购管理 -->
-                <div class="tab-pane fade" id="back_manage">
-                    <!--库存 -->
-                    <div class="card row mb-4">
-                        <div class="card-header">
-                            <h4><i class="bi bi-people me-2"></i>库存管理</h4>
-                            <p>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_inventory_add"
-                                   role="button" aria-expanded="false" aria-controls="collapse_inventory_add">
-                                    添加供应商/取消
-                                </a>
-                            </p>
-                            <div class="collapse " id="collapse_inventory_add">
-                                <div class="card card-body">
-                                    <form method="post" class="row g-3" id="inventory_add_Form">
-                                        {% csrf_token %}
-                                        <div class="col-auto"><input type="text" class="form-control"
-                                                                     name="product_name"
-                                                                     placeholder="商品名称"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="amount"
-                                                                     placeholder="库内商品数量"></div>
-                                        <div class="col-auto"><input type="text" class="form-control"
-                                                                     name="expiration_data"
-                                                                     placeholder="保质期限"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="dish"
-                                                                     placeholder="关联菜品"></div>
-                                        <div class="col-auto"><input type="text" class="form-control"
-                                                                     name="warehouse_loc"
-                                                                     placeholder="仓库位置"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="batch_no"
-                                                                     placeholder="批次号"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="category"
-                                                                     placeholder="分类标签"></div>
-                                        <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!--table-->
-                            <div class="card-body">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>库存记录标识</th>
-                                        <th>库内商品名称</th>
-                                        <th>库内商品数量</th>
-                                        <th>保质期限</th>
-                                        <th>关联菜品唯一ID</th>
-                                        <th>仓库位置</th>
-                                        <th>批次号</th>
-                                        <th>分类标签</th>
-                                        <th>删除/编辑</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="inventory">
-                                    {% for item in inventory %}
-                                        <tr>
-                                            <td data-id="{{ item.inventory_id }}">{{ item.inventory_id }}</td>
-                                            <td>{{ item.product_name }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td>{{ item.expiration_data }}</td>
-                                            <td>{{ item.dish_id }}</td>
-                                            <td>{{ item.warehouse_loc }}</td>
-                                            <td>{{ item.batch_no }}</td>
-                                            <td>{{ item.category }}</td>
-                                            <td>
-                                                <button class="btn badge-gradient-danger btn-sm"
-                                                        data-inventoryid="{{ item.inventory_id }}">
-                                                    删除
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm badge-gradient-warning edit-btn-inventory">
-                                                    编辑
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- 搜索表单 -->
-                                    <h5>库存查询</h5>
-                                    <form id="searchForm">
-                                        <input type="number" id="search_inventory_id" placeholder="输入库存标识ID"
-                                               class="form-control">
-                                        <input type="text" id="search_inventory_name" placeholder="输入库内商品名称"
-                                               class="form-control">
-                                        <button type="button" class="btn btn-primary search-btn-inventory">查询/刷新
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--供应商 -->
-                    <div class="card row mb-4">
-                        <div class="card-header">
-                            <h4><i class="bi bi-people me-2"></i>供应商管理</h4>
-                            <p>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_supplier_add"
-                                   role="button" aria-expanded="false" aria-controls="collapse_supplier_add">
-                                    添加供应商/取消
-                                </a>
-                            </p>
-                            <div class="collapse " id="collapse_supplier_add">
-                                <div class="card card-body">
-                                    <form method="post" class="row g-3" id="supplier_add_Form">
-                                        {% csrf_token %}
-                                        <div class="col-auto"><input type="text" class="form-control" name="name"
-                                                                     placeholder="供应商名称"></div>
-                                        <div class="col-auto"><input type="text" class="form-control"
-                                                                     name="contact_person"
-                                                                     placeholder="联系人姓名"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="phone"
-                                                                     placeholder="联系电话"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="email"
-                                                                     placeholder="联系邮箱"></div>
-                                        <div class="col-auto"><input type="text" class="form-control" name="address"
-                                                                     placeholder="详细地址"></div>
-                                        <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!--table-->
-                            <div class="card-body">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>供应商名称</th>
-                                        <th>联系人姓名</th>
-                                        <th>联系电话</th>
-                                        <th>联系邮箱</th>
-                                        <th>详细地址</th>
-                                        <th>最后修改时间</th>
-                                        <th>删除/编辑</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="supplier">
-                                    {% for item in supplier %}
-                                        <tr>
-                                            <td data-id="{{ item.supplier_id }}">{{ item.supplier_id }}</td>
-                                            <td>{{ item.name }}</td>
-                                            <td>{{ item.contact_person }}</td>
-                                            <td>{{ item.phone }}</td>
-                                            <td>{{ item.email }}</td>
-                                            <td>{{ item.address }}</td>
-                                            <td>{{ item.updated_time }}</td>
-                                            <td>
-                                                <button class="btn badge-gradient-danger btn-sm"
-                                                        data-supplierid="{{ item.supplier_id }}">
-                                                    删除
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm badge-gradient-warning edit-btn-supplier">
-                                                    编辑
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- 搜索表单 -->
-                                    <h5>供应商查询</h5>
-                                    <form id="searchForm">
-                                        <input type="number" id="search_supplier_id" placeholder="输入供应商ID"
-                                               class="form-control">
-                                        <input type="text" id="search_supplier_name" placeholder="输入供应商名称"
-                                               class="form-control">
-                                        <button type="button" class="btn btn-primary search-btn-supplier">查询/刷新
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="chain">
-                        <!--trace-->
+            </div>
+            <!-- AI接入 -->
+            <div class="tab-pane fade" id="ai_analysis">
+                <div class="card">
                     <div class="card-header">
-                        <h4><i class="bi bi-bezier"></i>链条查询</h4>
-                        <h4>
-                                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_chain_query"
-                                   role="button" aria-expanded="false" aria-controls="collapse_chain_query">
-                                    顾客食品供应链条查询
-                                </a>
-                        </h4>
-                            <div class="collapse" id="collapse_chain_query">
-                                <div class="card card-body">
-                                    <form id="searchForm">
-                                        <input type="text" id="search_chain_customername" placeholder="输入顾客姓名"
-                                               class="form-control">
-                                        <input type="text" id="search_chain_dishname" placeholder="输入菜品名称"
-                                               class="form-control">
-                                        <button type="button" class="btn btn-primary search-btn-chain">查询/刷新
-                                        </button>
-                                    </form>
-                                </div>
+
+                        <h2><img src="{% static '/img/Tongyi.svg' %}" alt="" style="height: 40px;width:40px"> AI分析
+                        </h2>
+                        <div class="blockquote-footer text-end">基于通义千问Qwen/QwQ-32B</div>
+                    </div>
+                    <div class="card-body">
+
+                        <div id="chat-box">
+
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <textarea id="user-input" class="form-control" rows="2"
+                                      placeholder="请输入你的问题..."></textarea>
+                        </div>
+                        <button onclick="sendMessage()" class="btn badge-gradient-success">发送</button>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 库存与采购管理 -->
+            <div class="tab-pane fade" id="back_manage">
+                <!--库存 -->
+                <div class="card row mb-4">
+                    <div class="card-header">
+                        <h4><i class="bi bi-people me-2"></i>库存管理</h4>
+                        <p>
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_inventory_add"
+                               role="button" aria-expanded="false" aria-controls="collapse_inventory_add">
+                                添加供应商/取消
+                            </a>
+                        </p>
+                        <div class="collapse " id="collapse_inventory_add">
+                            <div class="card card-body">
+                                <form method="post" class="row g-3" id="inventory_add_Form">
+                                    {% csrf_token %}
+                                    <div class="col-auto"><input type="text" class="form-control"
+                                                                 name="product_name"
+                                                                 placeholder="商品名称"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="amount"
+                                                                 placeholder="库内商品数量"></div>
+                                    <div class="col-auto"><input type="text" class="form-control"
+                                                                 name="expiration_data"
+                                                                 placeholder="保质期限"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="dish"
+                                                                 placeholder="关联菜品"></div>
+                                    <div class="col-auto"><input type="text" class="form-control"
+                                                                 name="warehouse_loc"
+                                                                 placeholder="仓库位置"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="batch_no"
+                                                                 placeholder="批次号"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="category"
+                                                                 placeholder="分类标签"></div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+                                    </div>
+                                </form>
                             </div>
-                        <div>
-                            <hr>
+                        </div>
+                        <!--table-->
+                        <div class="card-body">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>库存记录标识</th>
+                                    <th>库内商品名称</th>
+                                    <th>库内商品数量</th>
+                                    <th>保质期限</th>
+                                    <th>关联菜品唯一ID</th>
+                                    <th>仓库位置</th>
+                                    <th>批次号</th>
+                                    <th>分类标签</th>
+                                    <th>删除/编辑</th>
+                                </tr>
+                                </thead>
+                                <tbody id="inventory">
+                                {% for item in inventory %}
+                                    <tr>
+                                        <td data-id="{{ item.inventory_id }}">{{ item.inventory_id }}</td>
+                                        <td>{{ item.product_name }}</td>
+                                        <td>{{ item.amount }}</td>
+                                        <td>{{ item.expiration_data }}</td>
+                                        <td>{{ item.dish_id }}</td>
+                                        <td>{{ item.warehouse_loc }}</td>
+                                        <td>{{ item.batch_no }}</td>
+                                        <td>{{ item.category }}</td>
+                                        <td>
+                                            <button class="btn badge-gradient-danger btn-sm"
+                                                    data-inventoryid="{{ item.inventory_id }}">
+                                                删除
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm badge-gradient-warning edit-btn-inventory">
+                                                编辑
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- 搜索表单 -->
+                                <h5>库存查询</h5>
+                                <form id="searchForm">
+                                    <input type="number" id="search_inventory_id" placeholder="输入库存标识ID"
+                                           class="form-control">
+                                    <input type="text" id="search_inventory_name" placeholder="输入库内商品名称"
+                                           class="form-control">
+                                    <button type="button" class="btn btn-primary search-btn-inventory">查询/刷新
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-4" >
-                        <!-- 第一个卡片 -->
-                        <div class="col-md-3 mb-3 position-relative">
-                            <div class="card">
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">顾客信息</h5>
-                                    <div id="chain_card1">1</div>
-                                    <i class="bi bi-person fs-1 float-end"></i>
-                                </div>
+                </div>
+                <!--供应商 -->
+                <div class="card row mb-4">
+                    <div class="card-header">
+                        <h4><i class="bi bi-people me-2"></i>供应商管理</h4>
+                        <p>
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_supplier_add"
+                               role="button" aria-expanded="false" aria-controls="collapse_supplier_add">
+                                添加供应商/取消
+                            </a>
+                        </p>
+                        <div class="collapse " id="collapse_supplier_add">
+                            <div class="card card-body">
+                                <form method="post" class="row g-3" id="supplier_add_Form">
+                                    {% csrf_token %}
+                                    <div class="col-auto"><input type="text" class="form-control" name="name"
+                                                                 placeholder="供应商名称"></div>
+                                    <div class="col-auto"><input type="text" class="form-control"
+                                                                 name="contact_person"
+                                                                 placeholder="联系人姓名"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="phone"
+                                                                 placeholder="联系电话"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="email"
+                                                                 placeholder="联系邮箱"></div>
+                                    <div class="col-auto"><input type="text" class="form-control" name="address"
+                                                                 placeholder="详细地址"></div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <!-- 箭头连接列 -->
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            <div class="arrow-container">
-                                <div class="animated-arrow"></div>
+                        <!--table-->
+                        <div class="card-body">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>供应商名称</th>
+                                    <th>联系人姓名</th>
+                                    <th>联系电话</th>
+                                    <th>联系邮箱</th>
+                                    <th>详细地址</th>
+                                    <th>最后修改时间</th>
+                                    <th>删除/编辑</th>
+                                </tr>
+                                </thead>
+                                <tbody id="supplier">
+                                {% for item in supplier %}
+                                    <tr>
+                                        <td data-id="{{ item.supplier_id }}">{{ item.supplier_id }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.contact_person }}</td>
+                                        <td>{{ item.phone }}</td>
+                                        <td>{{ item.email }}</td>
+                                        <td>{{ item.address }}</td>
+                                        <td>{{ item.updated_time }}</td>
+                                        <td>
+                                            <button class="btn badge-gradient-danger btn-sm"
+                                                    data-supplierid="{{ item.supplier_id }}">
+                                                删除
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm badge-gradient-warning edit-btn-supplier">
+                                                编辑
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- 搜索表单 -->
+                                <h5>供应商查询</h5>
+                                <form id="searchForm">
+                                    <input type="number" id="search_supplier_id" placeholder="输入供应商ID"
+                                           class="form-control">
+                                    <input type="text" id="search_supplier_name" placeholder="输入供应商名称"
+                                           class="form-control">
+                                    <button type="button" class="btn btn-primary search-btn-supplier">查询/刷新
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <!-- 第二个卡片 -->
-                        <div class="col-md-3 mb-3">
-                            <div class="card">
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">消费记录编号和时间</h5>
-                                    <div id="chain_card2">2</div>
-                                    <i class="bi bi-cash-coin fs-1 float-end"></i>
-                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="chain">
+                <!--trace-->
+                <div class="card-header">
+                    <h4><i class="bi bi-bezier"></i>链条查询</h4>
+                    <h4>
+                        <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapse_chain_query"
+                           role="button" aria-expanded="false" aria-controls="collapse_chain_query">
+                            顾客食品供应链条查询
+                        </a>
+                    </h4>
+                    <div class="collapse" id="collapse_chain_query">
+                        <div class="card card-body">
+                            <form id="searchForm">
+                                <input type="text" id="search_chain_customername" placeholder="输入顾客姓名"
+                                       class="form-control">
+                                <input type="text" id="search_chain_dishname" placeholder="输入菜品名称"
+                                       class="form-control">
+                                <button type="button" class="btn btn-primary search-btn-chain">查询/刷新
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <!-- 第一个卡片 -->
+                    <div class="col-md-3 mb-3 position-relative">
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">顾客信息</h5>
+                                <div id="chain_card1">1</div>
+                                <i class="bi bi-person fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!-- 箭头连接列 -->
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            <div class="arrow-container">
-                                <div class="animated-arrow"></div>
+                    </div>
+                    <!-- 箭头连接列 -->
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
+                        </div>
+                    </div>
+                    <!-- 第二个卡片 -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">消费记录编号和时间</h5>
+                                <div id="chain_card2">2</div>
+                                <i class="bi bi-cash-coin fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!-- 第三个卡片 -->
-                        <div class="col-md-3 mb-3">
-                            <div class="card">
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">菜品详细</h5>
-                                    <div id="chain_card3">3</div>
-                                    <i class="bi bi-egg-fried fs-1 float-end"></i>
-                                </div>
+                    </div>
+                    <!-- 箭头连接列 -->
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
+                        </div>
+                    </div>
+                    <!-- 第三个卡片 -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">菜品详细</h5>
+                                <div id="chain_card3">3</div>
+                                <i class="bi bi-egg-fried fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!-- 垂直箭头列 -->
-                        <div class="col-md-12 d-flex justify-content-center">
-                            <div class="vertical-arrow " style="margin-left: 850px;"></div>
-                        </div>
-                        <!-- 第四个卡片 -->
-                        <div class="col-md-3 mb-3">
-                            <div class="card">
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">库存位置</h5>
-                                    <div id="chain_card4">4</div>
-                                    <i class="bi bi-boxes fs-1 float-end"></i>
-                                </div>
+                    </div>
+                    <!-- 垂直箭头列 -->
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="vertical-arrow " style="margin-left: 850px;"></div>
+                    </div>
+                    <!-- 第四个卡片 -->
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">库存位置</h5>
+                                <div id="chain_card4">4</div>
+                                <i class="bi bi-boxes fs-1 float-end"></i>
                             </div>
                         </div>
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            <div class="arrow-container">
-                                <div class="animated-arrow"></div>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
+                        </div>
+                    </div>
+                    <!-- 第五个卡片 -->
+                    <div class="col-md-3 mb-3 ">
+                        <div class="card ">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">库存批次与保质期</h5>
+                                <div id="chain_card5">5</div>
+                                <i class="bi bi-calendar4-week fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!-- 第五个卡片 -->
-                        <div class="col-md-3 mb-3 ">
-                            <div class="card ">
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">库存批次与保质期</h5>
-                                    <div id="chain_card5">5</div>
-                                    <i class="bi bi-calendar4-week fs-1 float-end"></i>
-                                </div>
+                    </div>
+                    <!--右箭头-->
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
+                        </div>
+                    </div>
+                    <!-- 第六个卡片 -->
+                    <div class="col-md-3 mb-3 ">
+                        <div class="card ">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">库存标识ID</h5>
+                                <div id="chain_card6">6</div>
+                                <i class="bi bi-tag fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!--右箭头-->
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            <div class="arrow-container">
-                                <div class="animated-arrow"></div>
+                    </div>
+                    <!-- 垂直箭头列 -->
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="vertical-arrow " style="margin-left: 850px;"></div>
+                    </div>
+                    <!-- 第七个卡片 -->
+                    <div class="col-md-3 mb-3 " style="opacity: 0;">
+                        <div class="card ">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75"></h5>
+                                <i class="bi  fs-1 float-end"></i>
                             </div>
                         </div>
-                        <!-- 第六个卡片 -->
-                        <div class="col-md-3 mb-3 ">
-                            <div class="card " >
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">库存标识ID</h5>
-                                    <div id="chain_card6">6</div>
-                                    <i class="bi bi-tag fs-1 float-end"></i>
-                                </div>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center" style="opacity: 0;">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 " style="opacity: 0;">
+                        <div class="card ">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75"></h5>
+                                <i class="bi  fs-1 float-end"></i>
                             </div>
                         </div>
-                         <!-- 垂直箭头列 -->
-                        <div class="col-md-12 d-flex justify-content-center">
-                            <div class="vertical-arrow " style="margin-left: 850px;"></div>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center" style="opacity: 0;">
+                        <div class="arrow-container">
+                            <div class="animated-arrow"></div>
                         </div>
-                        <!-- 第七个卡片 -->
-                        <div class="col-md-3 mb-3 " style="margin-left: 940px">
-                            <div class="card " >
-                                <div class="card-body text-dark">
-                                    <h5 class="text-primary text-opacity-75">库存供应商</h5>
-                                    <div id="chain_card7">7</div>
-                                    <i class="bi bi-building-fill-add fs-1 float-end"></i>
-                                </div>
+                    </div>
+                    <div class="col-md-3 mb-3 " style="opacity: 1;">
+                        <div class="card ">
+                            <div class="card-body text-dark">
+                                <h5 class="text-primary text-opacity-75">库存供应商</h5>
+                                <div id="chain_card7">7</div>
+                                <i class="bi bi-building-fill-add fs-1 float-end"></i>
                             </div>
                         </div>
+                    </div>
+                    <!-- 第七个卡片 -->
+                </div>
+            </div>
+
+            <!-- 数据导入导出 -->
+            <div class="tab-pane fade" id="data_im_ex">
+                <hr>
+                <a href="{% url 'export_to_excel_dishtable' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
+                <a href="{% url 'export_to_excel_inventory' %}" class="btn btn-primary">库存Inventory导出为 Excel</a>
+                <a href="{% url 'export_to_excel_supplier' %}" class="btn btn-primary">供应商Supplier导出为 Excel</a>
+                <hr>
+            </div>
+            <!-- 日志 -->
+            <div class="tab-pane fade" id="version_log">
+                <div class="card">
+                    <div class="card-body" id="version_log_card">
                     </div>
                 </div>
 
-                <!-- 数据导入导出 -->
-                <div class="tab-pane fade" id="data_im_ex">
-                    <hr>
-                    <a href="{% url 'export_to_excel_dishtable' %}" class="btn btn-primary">菜品Dish_table导出为 Excel</a>
-                    <a href="{% url 'export_to_excel_inventory' %}" class="btn btn-primary">库存Inventory导出为 Excel</a>
-                    <a href="{% url 'export_to_excel_supplier' %}" class="btn btn-primary">供应商Supplier导出为 Excel</a>
-                    <hr>
-                </div>
-        <!-- 日志 -->
-                <div class="tab-pane fade" id="version_log">
-                    <div class="card">
-                        <div class="card-body" id="version_log_card">
-                        </div>
-                    </div>
-
-                </div>
+            </div>
         </div>
 
-            <!--edit模态框-->
-            <div class="modal fade" id="editModal" tabindex="-1"><!-- 重构 -->
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-light">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <form id="editForm">
-                            {% csrf_token %}
-                            <!-- 修正隐藏字段名称 -->
-                            <input type="hidden" name="id">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">菜品名称</label>
-                                    <input type="text" class="form-control" name="dish_name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">菜品数量</label>
-                                    <input type="number" class="form-control" name="dish_amount" min="1" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">菜品价格</label>
-                                    <input type="number" class="form-control" name="dish_price" step="0.01" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="submit" class="btn btn-primary">保存更改</button>
-                            </div>
-                        </form>
+        <!--edit模态框-->
+        <div class="modal fade" id="editModal" tabindex="-1"><!-- 重构 -->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+                    <form id="editForm">
+                        {% csrf_token %}
+                        <!-- 修正隐藏字段名称 -->
+                        <input type="hidden" name="id">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">菜品名称</label>
+                                <input type="text" class="form-control" name="dish_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">菜品数量</label>
+                                <input type="number" class="form-control" name="dish_amount" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">菜品价格</label>
+                                <input type="number" class="form-control" name="dish_price" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary">保存更改</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- supplier模态框-->
-            <div class="modal fade" id="editModal_supplier" tabindex="-1"><!-- 重构 -->
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-light">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <form id="editForm_supplier">
-                            {% csrf_token %}
-                            <!-- 注意这一步 -->
-                            <input type="hidden" name="id">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">供应商名称</label>
-                                    <input type="text" class="form-control" name="name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">联系人姓名</label>
-                                    <input type="text" class="form-control" name="contact_person" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">联系电话</label>
-                                    <input type="number" class="form-control" name="phone" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">联系邮箱</label>
-                                    <input type="text" class="form-control" name="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">详细地址</label>
-                                    <input type="text" class="form-control" name="address" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="submit" class="btn btn-primary">保存更改</button>
-                            </div>
-                        </form>
+        </div>
+        <!-- supplier模态框-->
+        <div class="modal fade" id="editModal_supplier" tabindex="-1"><!-- 重构 -->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+                    <form id="editForm_supplier">
+                        {% csrf_token %}
+                        <!-- 注意这一步 -->
+                        <input type="hidden" name="id">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">供应商名称</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">联系人姓名</label>
+                                <input type="text" class="form-control" name="contact_person" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">联系电话</label>
+                                <input type="number" class="form-control" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">联系邮箱</label>
+                                <input type="text" class="form-control" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">详细地址</label>
+                                <input type="text" class="form-control" name="address" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary">保存更改</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- inventory模态框-->
-            <div class="modal fade" id="editModal_inventory" tabindex="-1"><!-- 重构 -->
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-light">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <form id="editForm_inventory">
-                            {% csrf_token %}
-                            <!-- 注意这一步 -->
-                            <input type="hidden" name="id">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">库内商品名称</label>
-                                    <input type="text" class="form-control" name="product_name" required>
-                                </div>
-                                <label class="form-label">库内商品数量</label>
-                                <input type="text" class="form-control" name="amount" required>
+        </div>
+        <!-- inventory模态框-->
+        <div class="modal fade" id="editModal_inventory" tabindex="-1"><!-- 重构 -->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>编辑窗口</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="editForm_inventory">
+                        {% csrf_token %}
+                        <!-- 注意这一步 -->
+                        <input type="hidden" name="id">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">库内商品名称</label>
+                                <input type="text" class="form-control" name="product_name" required>
+                            </div>
+                            <label class="form-label">库内商品数量</label>
+                            <input type="text" class="form-control" name="amount" required>
 
                             <div class="mb-3">
                                 <label class="form-label">保质期限</label>
@@ -876,177 +917,146 @@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                                 <button type="submit" class="btn btn-primary">保存更改</button>
                             </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- Toast通用查询编辑 -->
-            <div class="toast-container position-fixed top-0 end-0 p-3">
-                <div id="successToast" class="toast bg-success text-white">
-                    <div class="toast-body"></div>
-                </div>
-                <div id="errorToast" class="toast bg-danger text-white">
-                    <div class="toast-body"></div>
-                </div>
-            </div>
-            <!-- Toast初始通知 -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast" class="toast" role="alert">
-                    <div class="toast-header">
-                        <i class="bi bi-bell me-2"></i>
-                        <strong class="me-auto">系统通知</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body">
-                        数据加载完成030！
-                    </div>
-                </div>
-            </div>
-            <!-- errorToast通知 -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="errorToast" class="toast" role="alert">
-                    <div class="toast-header">
-                        <i class="bi bi-bell me-2"></i>
-                        <strong class="me-auto">系统通知</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body">
-                        执行异常!
-                    </div>
-                </div>
-            </div>
-            <!-- liveToast_error1重名通知 -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast_error1" class="toast" role="alert">
-                    <div class="toast-header">
-                        <i class="bi bi-bell me-2"></i>
-                        <strong class="me-auto">系统通知</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body">
-                        与已经存在的数据重名!
-                    </div>
-                </div>
-            </div>
-            <!-- liveToast_delete1删除成功通知 -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast_delete1" class="toast" role="alert">
-                    <div class="toast-header">
-                        <i class="bi bi-bell me-2"></i>
-                        <strong class="me-auto">系统通知</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body">
-                        数据删除成功!
-                    </div>
-                </div>
-            </div>
-            <!-- liveToast_update0编辑错误0通知 -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast_update0" class="toast" role="alert">
-                    <div class="toast-header">
-                        <i class="bi bi-bell me-2"></i>
-                        <strong class="me-auto">系统通知</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body badge-gradient-danger">
-                        数据已经存在不可重名!
-                    </div>
-                </div>
-            </div>
-            <!-- 保留的可编辑Toast通知 -->
-            <div id="toastContainer" class="toast" role="alert" style="position: fixed; top: 20px; right: 20px;">
-                <div class="toast-header">
-                    <strong class="me-auto"></strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                </div>
+        </div>
+        <!-- Toast通用查询编辑 -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="successToast" class="toast bg-success text-white">
                 <div class="toast-body"></div>
             </div>
+            <div id="errorToast" class="toast bg-danger text-white">
+                <div class="toast-body"></div>
+            </div>
+        </div>
+        <!-- Toast初始通知 -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-bell me-2"></i>
+                    <strong class="me-auto">系统通知</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    数据加载完成030！
+                </div>
+            </div>
+        </div>
+        <!-- errorToast通知 -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="errorToast" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-bell me-2"></i>
+                    <strong class="me-auto">系统通知</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    执行异常!
+                </div>
+            </div>
+        </div>
+        <!-- liveToast_error1重名通知 -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast_error1" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-bell me-2"></i>
+                    <strong class="me-auto">系统通知</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    与已经存在的数据重名!
+                </div>
+            </div>
+        </div>
+        <!-- liveToast_delete1删除成功通知 -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast_delete1" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-bell me-2"></i>
+                    <strong class="me-auto">系统通知</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    数据删除成功!
+                </div>
+            </div>
+        </div>
+        <!-- liveToast_update0编辑错误0通知 -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast_update0" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-bell me-2"></i>
+                    <strong class="me-auto">系统通知</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body badge-gradient-danger">
+                    数据已经存在不可重名!
+                </div>
+            </div>
+        </div>
+        <!-- 保留的可编辑Toast通知 -->
+        <div id="toastContainer" class="toast" role="alert" style="position: fixed; top: 20px; right: 20px;">
+            <div class="toast-header">
+                <strong class="me-auto"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
     </div>
 </div>
-    <!-- Bootstrap JS -->
-    <script src="{% static '/plugins/js/bootstrap.js' %}"></script>
-    <!-- 模拟加载数据 -->
-    <script>
-        const toast = new bootstrap.Toast(document.getElementById('liveToast'))
+<!-- Bootstrap JS -->
+<script src="{% static '/plugins/js/bootstrap.js' %}"></script>
+<!-- mysql加载数据 -->
+<script>
+    const toast = new bootstrap.Toast(document.getElementById('liveToast'))
+    function loadData() {
+        setTimeout(() => {
+            // 显示通知
+            toast.show()
+            //模拟多少ms
+        }, 150)
+    }
+    // 模拟加载数据
+    loadData()
+</script>
+<!--version-->
+<script src="{% static '/zzy_js/get_version.js' %} "></script>
+<script src="{% static '/zzy_js/user_login/user_delete.js' %}"></script>
+<script src="{% static '/zzy_js/version_log.js' %}"></script>
 
-        //模拟数据加载
-        function loadData() {
-            setTimeout(() => {
-                // 显示通知
-                toast.show()
-                //模拟多少ms
-            }, 150)
-        }
-
-        // 首次加载数据
-        loadData()
-        //
-        document.querySelectorAll('.search-btn-price-desc').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const data = {
-                    data: "数据"
-                };
-
-                // 使用fetch发送POST请求
-                fetch("/DishTable_price_desc/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": "{{ csrf_token }}", // Django的CSRF保护
-                    },
-                    body: JSON.stringify(data),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        alert(data.result); // 显示处理后的结果
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                    });
-            });
-        });
-
-    </script>
-
-    <!--version-->
-    <script src="{% static '/zzy_js/get_version.js' %} "></script>
-    <script src="{% static '/zzy_js/user_login/user_delete.js' %}"></script>
-    <script src="{% static '/zzy_js/version_log.js' %}"></script>
-
-    <!--charts-->
-    <script src="{% static '/zzy_js/echart/charts2.js' %}"></script>
-    <script src="{% static '/zzy_js/echart/charts.js' %}"></script>
+<!--charts-->
+<script src="{% static '/zzy_js/echart/charts2.js' %}"></script>
+<script src="{% static '/zzy_js/echart/charts.js' %}"></script>
 
 
-    <!--ajax内容 后期考虑整合在一个js库里-->
-    <!--添加js-->
-    <script src="{% static '/zzy_js/dishtable/dishtable_add.js' %}"></script>
-    <script src="{% static '/zzy_js/supplier/supplier_add.js' %}"></script>
-    <script src="{% static '/zzy_js/inventory/inventory_add.js' %}"></script>
+<!--ajax内容 后期考虑整合在一个js库里-->
+<!--添加js-->
+<script src="{% static '/zzy_js/dishtable/dishtable_add.js' %}"></script>
+<script src="{% static '/zzy_js/supplier/supplier_add.js' %}"></script>
+<script src="{% static '/zzy_js/inventory/inventory_add.js' %}"></script>
 
-    <!--删除js-->
-    <script src="{% static '/zzy_js/dishtable/dishtable_delete.js' %}"></script>
-    <script src="{% static '/zzy_js/supplier/supplier_delete.js' %}"></script>
-    <script src="{% static '/zzy_js/inventory/inventory_delete.js' %}"></script>
+<!--删除js-->
+<script src="{% static '/zzy_js/dishtable/dishtable_delete.js' %}"></script>
+<script src="{% static '/zzy_js/supplier/supplier_delete.js' %}"></script>
+<script src="{% static '/zzy_js/inventory/inventory_delete.js' %}"></script>
 
-    <!--菜品添加js-->
-    <script src="{% static '/zzy_js/dishtable/dishtable_update.js' %}"></script>
-    <script src="{% static '/zzy_js/supplier/supplier_update.js' %}"></script>
-    <script src="{% static '/zzy_js/inventory/inventory_update.js' %}"></script>
+<!--菜品添加js-->
+<script src="{% static '/zzy_js/dishtable/dishtable_update.js' %}"></script>
+<script src="{% static '/zzy_js/supplier/supplier_update.js' %}"></script>
+<script src="{% static '/zzy_js/inventory/inventory_update.js' %}"></script>
 
-    <!--菜品查询js-->
-    <script src="{% static '/zzy_js/dishtable/dishtable_query.js' %}"></script>
-    <script src="{% static '/zzy_js/supplier/supplier_query.js' %}"></script>
-    <script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
-    <script src="{% static '/zzy_js/dishtable/dishtable_price_desc.js' %}"></script>
-    <!--通用toast通知-->
-    <script src="{% static '/zzy_js/toast/toast_show.js' %}"></script>
-    <!--aichat-->
-    <script src="{% static '/zzy_js/ai_chat/ai_chat.js' %}"></script>
-    <!--chain-->
-    <script src="{% static '/zzy_js/chain/chain_query.js' %}"></script>
+<!--菜品查询js-->
+<script src="{% static '/zzy_js/dishtable/dishtable_query.js' %}"></script>
+<script src="{% static '/zzy_js/supplier/supplier_query.js' %}"></script>
+<script src="{% static '/zzy_js/inventory/inventory_query.js' %}"></script>
+<script src="{% static '/zzy_js/dishtable/dishtable_price_desc.js' %}"></script>
+<!--通用toast通知-->
+<script src="{% static '/zzy_js/toast/toast_show.js' %}"></script>
+<!--aichat-->
+<script src="{% static '/zzy_js/ai_chat/ai_chat.js' %}"></script>
+<!--chain-->
+<script src="{% static '/zzy_js/chain/chain_query.js' %}"></script>
 </body>
 </html>

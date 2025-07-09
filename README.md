@@ -60,7 +60,47 @@ openai mysqlclient openpyxl requests #mysql代理 ai调用 excel操作 api工具
 ## ER图
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/ER.png)
 ## Django结构
-![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/django_construction.png)
+```
+DjangoProject
+    -| PycharmProjects
+      -| _venv (library根目录)
+      -| app01
+        -| migrations
+        -| sql_data
+        -| static
+          -| img
+          -| map
+          -| plugins
+          -| css
+          -| icon
+          -| js
+          -| trace_jmg
+          -| zzy_css
+          -| zzy.js
+          -| ai_chat
+          -| chain
+          -| dishtable
+          -| echart
+          -| inventory
+          -| supplier
+          -| toast
+          -| user_login
+          -| copy_content.js
+          -| get_version.js
+          -| version_log.js
+        -| templates
+          -| old
+          -| partials
+            -| dish_table_body.html
+            -| dish_table_pagination.html
+          -| login.html
+          -| main_management.html
+        -| __init__.py
+        -| admin.py
+        -| apps.py
+        -| manage_function.py
+        -| models.py
+```
 ### 登录页面
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/login_show.png)
 ### 主界面

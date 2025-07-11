@@ -1,4 +1,4 @@
-# 基于Django和Bootstrap5的食堂后台智慧管理系统
+# 基于Django和Bootstrap5的食品溯源智慧管理系统
 ---这是成都理工大学数据库的作业项目。本项目分为前端部分和后端部分。---
 ### 前端 Bootstrap
 - HTML/CSS/JavaScript

@@ -75,7 +75,7 @@ def manage(request):
     customer = Customer.objects.all()
 
     # 分页处理paginator - 菜品表
-    dish_paginator = Paginator(dish_table, 10)  # 每页10条
+    dish_paginator = Paginator(dish_table, 5)  # 每页per_page条
     page_number = request.GET.get('page')  # 从URL获取页码
     dish_page_obj = dish_paginator.get_page(page_number)
 
@@ -671,9 +671,9 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 
 def dish_table_ajax(request):
-    dish_table = DishTable.objects.all()
+    dish_table = DishTable.objects.all().order_by('id')
     page_number = request.GET.get('page', 1)
-    paginator = Paginator(dish_table, 10)
+    paginator = Paginator(dish_table, 5)
     page_obj = paginator.get_page(page_number)
 
     html = render_to_string("partials/dish_table_body.html", {"dish_table": page_obj})

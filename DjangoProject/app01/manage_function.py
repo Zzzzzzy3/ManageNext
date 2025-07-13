@@ -66,4 +66,3 @@ def dish_table_price_descr():
             print(result)
     finally:
         cursor.close()
-

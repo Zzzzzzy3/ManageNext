@@ -21,7 +21,6 @@ def user_login(request):
 def login_register(request):
     if request.method == 'POST':
         # 从POST请求中获取参数
-        print("fuck")
         username = request.POST.get('reg_username')
         password = request.POST.get('reg_password')
         email = request.POST.get('email')

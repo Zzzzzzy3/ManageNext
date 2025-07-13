@@ -108,7 +108,7 @@ DjangoProject
 ### Ai部分
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_ai.png)
 ### 实际表的增删查改模块展示
-![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/show_add.png)
+![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/front_manage.png)
 ### 创新点:多表实现食品轨迹追踪
 ![](https://github.com/Zzzzzzy3/PycharmProjects/blob/main/DjangoProject/app01/static/img/trace_show.png)
 ### 学习过程中的笔记
